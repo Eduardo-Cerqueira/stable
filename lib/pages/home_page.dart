@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:stable/components/home_body.dart';
+import 'package:get/get.dart';
+import 'package:stable/pages/second_page.dart';
 
-class HomePage extends StatefulWidget {
+class Controller extends GetxController {
+  var count = 0.obs;
+  increment() => count++;
+}
+
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  Widget build(BuildContext context) {
+    final Controller c = Get.put(Controller());
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+            onPressed: () => Get.to(SecondPage(
+                  argument: 'Welcome to page 2',
+                )),
+            icon: const Icon(Icons.navigate_next)),
+      ),
+      body: Obx(() => Text("${c.count}")),
+      floatingActionButton: FloatingActionButton(
+        onPressed: c.increment,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
   }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text("Stable"),
-          centerTitle: true,
-        ),
-        body: HomeBody(counter: _counter),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _incrementCounter,
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        ),
-      );
 }
