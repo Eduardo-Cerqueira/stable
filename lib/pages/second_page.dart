@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stable/pages/home_page.dart';
+import 'package:stable/pages/login_page.dart';
+import 'dart:developer' as dev;
 
 class SecondPage extends StatelessWidget {
   final String argument;
@@ -21,9 +25,16 @@ class SecondPage extends StatelessWidget {
           ),
           body: Center(child: Obx(() => Text("${c.count}"))),
           floatingActionButton: FloatingActionButton(
-            onPressed: c.increment,
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),
+            onPressed: () {
+              try {
+              dev.log('test');
+                Get.to(LoginPage(argument: 'Login',));            
+              } catch (e) {
+                dev.log('e');
+              }
+            },
+            tooltip: 'Login',
+            child: const Icon(Icons.person),
           )),
     );
   }
