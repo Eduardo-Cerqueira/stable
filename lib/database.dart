@@ -1,11 +1,9 @@
-import 'package:mongo_dart/mongo_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'constant.dart';
 
 connection() async {
-  const connectionString =
-      'mongodb+srv://coraliepereira95:coraliepereira95@Cluster1.fs7xzjy.mongodb.net/Cluster1?retryWrites=true&w=majority';
+  const connectionString = '';
 
   var db = await Db.create(connectionString);
 
@@ -61,6 +59,7 @@ Future<void> insertUsers(db, Map<String, dynamic> usersData) async {
   await collection.insert(usersData);
 
   await db.close();
+}
 
 class MongoDatabase {
   static late Db _db;
@@ -83,7 +82,8 @@ class MongoDatabase {
 
   static Future<void> listCollections() async {
     try {
-      var collections = await _db.getCollectionNames(); // Récupère les noms des collections
+      var collections =
+          await _db.getCollectionNames(); // Récupère les noms des collections
       if (kDebugMode) {
         print('Collections in DB:');
         for (var collection in collections) {
