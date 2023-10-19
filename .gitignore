@@ -45,3 +45,7 @@ app.*.map.json
 
 # Environment variables
 **/*.env
+
+# Fichiers personnels
+lib/constant.dart
+/lib/database/constant.dart
