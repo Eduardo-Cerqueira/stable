@@ -219,6 +219,7 @@ class _CourseFormState extends State<CourseForm> {
         'startTime': criteria.startTime.toIso8601String(),
         'endTime': criteria.endTime.toIso8601String(),
         'discipline': criteria.discipline,
+        'status': 'PENDING',
       });
 
       await db.close();
