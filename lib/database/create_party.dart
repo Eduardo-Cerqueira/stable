@@ -10,25 +10,30 @@ class MongoDataBase {
     db.close();
   }
 
-  static Future<void> insertEvent(String nomSoiree, String typeSoiree, DateTime? selectedDate) async {
-    var db = await Db.create(MONGO_URL);
-    await db.open();
-    inspect(db);
+  static Future<void> insertEvent(String nomSoiree, String typeSoiree, DateTime? selectedDate, String userID) async {
+  var db = await Db.create(MONGO_URL);
+  await db.open();
+  inspect(db);
 
-    var collection = db.collection('evenement');
+  var collection = db.collection('soirees_evenements');
+  var userCollection = db.collection('users');
 
-    // Document à insérer
+  var user = await userCollection.findOne(where.id(ObjectId.parse(userID)));
+
+  if (user != null) {
+    var userName = user['name'];
     var event = {
-      'createur': 1,
+      'createur': userName,  
       'name': nomSoiree,
       'type': typeSoiree,
-      'date': selectedDate, // Utilisez la date actuelle
+      'date': selectedDate,
+      'items': [],
     };
-
-    // Insérer le document dans la collection
     await collection.insert(event);
-
-    // Fermer la connexion à la base de données lorsque vous avez terminé
-    db.close();
+  } else {
   }
+
+  db.close();
+}
+
 }

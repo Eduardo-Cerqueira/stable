@@ -3,10 +3,16 @@ import 'package:get/get.dart';
 import 'program_cours_page.dart';
 import 'ManageCoursesPage.dart';
 import 'ManageSoireesPage.dart';
+import 'package:stable/pages/party_page.dart';
+import 'package:stable/pages/party_list_page.dart';
+
 
 class Controller extends GetxController {
   var count = 0.obs;
   increment() => count++;
+  String getUserId() {
+    return "65318bc3756ac26b2f770d8a";
+  }
 }
 
 class HomePage extends StatelessWidget {
@@ -54,6 +60,18 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 // Naviguez vers ManageSoireesPage
                 Get.to(() => const ManageSoireesPage());
+              },
+            ),
+            ListTile(
+              title: const Text('Organiser une soirée'),
+              onTap: () {
+                Get.to(() => PartyPage(userID: c.getUserId()));
+              },
+            ),
+            ListTile(
+              title: const Text('Liste des soirées'),
+              onTap: () {
+                Get.to(() => ListeSoireesPage(userID: c.getUserId()));
               },
             ),
           ],

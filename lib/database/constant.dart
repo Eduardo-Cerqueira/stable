@@ -1,1 +1,1 @@
-const MONGO_URL = "mongodb+srv://noeheylemadec:orRiBVJwTwhVHgwv@test.otsxnmi.mongodb.net/Ben";
+const MONGO_URL = "mongodb+srv://test:testmdp@clusterscolaire.yxcskol.mongodb.net/flutterecurie?retryWrites=true&w=majority";
