@@ -1,1 +1,0 @@
-const MONGO_URL = "mongodb+srv://test:testmdp@clusterscolaire.yxcskol.mongodb.net/flutterecurie?retryWrites=true&w=majority";
