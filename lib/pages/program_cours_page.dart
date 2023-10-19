@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stable/constant.dart';
@@ -217,13 +218,15 @@ class _CourseFormState extends State<CourseForm> {
         'date': criteria.date.toIso8601String(),
         'startTime': criteria.startTime.toIso8601String(),
         'endTime': criteria.endTime.toIso8601String(),
-        'discipline': criteria.discipline, // Ajouté la discipline ici
+        'discipline': criteria.discipline,
       });
 
       await db.close();
       return true;
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return false;
     }
   }
