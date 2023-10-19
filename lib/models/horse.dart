@@ -9,6 +9,7 @@ class Horse {
       required this.sex,
       required this.coat,
       required this.breed,
+      required this.stable,
       this.specialty,
       this.owner,
       this.halfBoarder});
@@ -21,6 +22,7 @@ class Horse {
   final String sex;
   final String coat;
   final String breed;
+  final String stable;
   final String? specialty;
   final String? owner;
   final List<String>? halfBoarder;
@@ -37,6 +39,7 @@ class Horse {
       'speciality': specialty,
       'owner': owner,
       'halfBoarder': halfBoarder,
+      'stable': stable,
     };
   }
 
@@ -51,6 +54,7 @@ class Horse {
         breed: json['breed'],
         specialty: json['specialty'],
         owner: json['owner'],
-        halfBoarder: json['halfBoarder']);
+        halfBoarder: json['halfBoarder'],
+        stable: json['stable']);
   }
 }
