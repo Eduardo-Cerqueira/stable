@@ -1,3 +1,5 @@
+import 'package:mongo_dart/mongo_dart.dart';
+
 class Horse {
   Horse(
       {required this.id,
@@ -11,7 +13,7 @@ class Horse {
       required this.rider});
 
   // Required
-  final String id;
+  final ObjectId id;
   final String picture;
   final String name;
   final int age;
@@ -37,7 +39,7 @@ class Horse {
 
   factory Horse.fromJson(Map json) {
     return Horse(
-        id: json['_id'],
+        id: ObjectId.parse(json['_id']),
         picture: json['picture'],
         name: json['name'],
         age: json['age'],

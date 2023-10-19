@@ -1,3 +1,5 @@
+import 'package:mongo_dart/mongo_dart.dart';
+
 class Stable {
   Stable(
       {required this.id,
@@ -6,7 +8,7 @@ class Stable {
       required this.horse});
 
   // Required
-  final String id;
+  final ObjectId id;
   final String picture;
   final String name;
   final List<String> horse;
@@ -22,7 +24,7 @@ class Stable {
 
   factory Stable.fromJson(Map json) {
     return Stable(
-        id: json['_id'],
+        id: ObjectId.parse(json['_id']),
         picture: json['picture'],
         name: json['name'],
         horse: json['horse']);

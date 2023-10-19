@@ -1,3 +1,5 @@
+import 'package:mongo_dart/mongo_dart.dart';
+
 class Event {
   Event(
       {required this.id,
@@ -6,7 +8,7 @@ class Event {
       required this.date});
 
   // Required
-  final String id;
+  final ObjectId id;
   final List<List<String>> attendee;
   final String type;
   final DateTime date;
@@ -17,7 +19,7 @@ class Event {
 
   factory Event.fromJson(Map json) {
     return Event(
-        id: json['_id'],
+        id: ObjectId.parse(json['_id']),
         attendee: json['attendee'],
         type: json['type'],
         date: json['date']);

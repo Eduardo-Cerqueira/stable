@@ -2,6 +2,8 @@
 // https://flutterbyexample.com/lesson/factory-methods
 // https://github.com/harshshinde07/MongoDB-Flutter/blob/master/lib/models/user.dart
 
+import 'package:mongo_dart/mongo_dart.dart';
+
 class User {
   User({
     required this.id,
@@ -16,7 +18,7 @@ class User {
     this.ffeLink,
   });
   // Required
-  final String id;
+  final ObjectId id;
   final String profilePicture;
   final String username;
   final String password;
@@ -45,7 +47,7 @@ class User {
 
   factory User.fromJson(Map json) {
     return User(
-        id: json['_id'],
+        id: ObjectId.parse(json['_id']),
         profilePicture: json['profilePicture'],
         username: json['username'],
         password: json['password'],
