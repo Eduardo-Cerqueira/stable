@@ -15,15 +15,16 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
   @override
   void initState() {
     super.initState();
-    _fetchPendingCourses();
+    _fetchAllCourses();
   }
 
-  Future<void> _fetchPendingCourses() async {
+
+  Future<void> _fetchAllCourses() async {
     var db = mdb.Db(MONGO_URL);
     await db.open();
 
     var collection = db.collection('cours');
-    List coursesData = await collection.find({'status': 'PENDING'}).toList();
+    List coursesData = await collection.find().toList();
 
     setState(() {
       courses = coursesData.cast<Map<String, dynamic>>();
@@ -31,6 +32,7 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
 
     await db.close();
   }
+
 
   String extractObjectId(String rawId) {
     var matches = RegExp(r'ObjectId\("([a-fA-F0-9]{24})"\)').firstMatch(rawId);
@@ -51,7 +53,7 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
     await db.close();
 
     // Refresh the list
-    _fetchPendingCourses();
+    _fetchAllCourses();
   }
 
 
