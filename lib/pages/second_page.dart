@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stable/pages/home_page.dart';
@@ -27,8 +25,7 @@ class SecondPage extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               try {
-              dev.log('test');
-                Get.to(LoginPage(argument: 'Login',));            
+                Get.to(LoginPage(argument: 'Login'));            
               } catch (e) {
                 dev.log('e');
               }
