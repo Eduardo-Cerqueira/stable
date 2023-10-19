@@ -3,8 +3,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'constant.dart';
 
 connection() async {
-  const connectionString =
-      'mongodb+srv://coraliepereira95:coraliepereira95@Cluster1.fs7xzjy.mongodb.net/Cluster1?retryWrites=true&w=majority';
+  const connectionString = '';
 
   var db = await Db.create(connectionString);
 
