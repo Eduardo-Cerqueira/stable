@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stable/pages/forgo_pass_page.dart';
 import 'package:stable/pages/home_page.dart';
 import 'package:stable/components/login.dart';
 
@@ -25,6 +26,17 @@ class LoginPage extends StatelessWidget {
             LoginForm(),
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            try{
+              Get.to(const ForgoPassPage());
+            } catch (e) {
+              print(e);
+            }
+          },
+          tooltip: 'Forgot Password',
+          child: const Icon(Icons.restart_alt_sharp),
+        )
       ),
     );
   }
