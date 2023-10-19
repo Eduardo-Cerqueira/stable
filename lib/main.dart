@@ -5,6 +5,12 @@ import 'database.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MongoDatabase.connect(); // Établissez la connexion à MongoDB
-  runApp(const GetMaterialApp(debugShowCheckedModeBanner: false, home: HomePage()));
+  var isConnected = await MongoDatabase.connect(); // Établissez la connexion à MongoDB
+  if (isConnected) {
+    await MongoDatabase.listCollections(); // Ajoutez cette ligne pour lister les collections
+    runApp(const GetMaterialApp(debugShowCheckedModeBanner: false, home: HomePage()));
+  } else {
+    print("Failed to connect to MongoDB");
+  }
 }
+

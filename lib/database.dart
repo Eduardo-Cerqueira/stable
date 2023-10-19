@@ -21,6 +21,21 @@ class MongoDatabase {
     }
   }
 
+  static Future<void> listCollections() async {
+    try {
+      var collections = await _db.getCollectionNames(); // Récupère les noms des collections
+      if (kDebugMode) {
+        print('Collections in DB:');
+        for (var collection in collections) {
+          print(collection); // Affiche le nom de chaque collection
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error listing collections: $e');
+      }
+    }
+  }
+
   static Db get db => _db;
 }
-

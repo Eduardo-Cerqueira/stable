@@ -1,22 +1,20 @@
-
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
-
-import 'package:stable/components/json.dart';
+import 'package:stable/constant.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mdb;
 
 class CourseCriteria {
   final String terrain;
   final DateTime date;
-  final Duration duration;
+  final DateTime startTime;
+  final DateTime endTime;
   final String discipline;
 
   CourseCriteria({
     required this.terrain,
     required this.date,
-    required this.duration,
+    required this.startTime,
+    required this.endTime,
     required this.discipline,
   });
 }
@@ -30,15 +28,14 @@ class CourseForm extends StatefulWidget {
 
 class _CourseFormState extends State<CourseForm> {
   DateTime? selectedDate;
-  TimeOfDay? selectedTime;
-  final TextEditingController durationController = TextEditingController();
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+  Duration? duration;
 
-  List<String> terrainOptions = ['Carrière', 'Manège'];
-  List<String> disciplineOptions = ['Dressage', 'Saut d\'obstacle', 'Endurance'];
+  final List<String> terrainOptions = ['Carrière', 'Manège'];
+  final List<String> disciplineOptions = ['Dressage', 'Saut d\'obstacle', 'Endurance'];
   String? selectedTerrain;
   String? selectedDiscipline;
-
-  JsonDataManager jsonDataManager = JsonDataManager('cours.json');
 
   void showSuccessNotification() {
     Get.snackbar(
@@ -58,64 +55,87 @@ class _CourseFormState extends State<CourseForm> {
     );
   }
 
+  void calculateDuration() {
+    if (selectedDate != null && startTime != null && endTime != null) {
+      final start = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day,
+          startTime!.hour, startTime!.minute);
+      final end = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day,
+          endTime!.hour, endTime!.minute);
+
+      setState(() {
+        duration = end.difference(start);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Programmer un cours')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: ListView(
           children: [
             ListTile(
-              title: Text(
-                selectedDate != null
-                    ? 'Date: ${selectedDate!.toLocal()}'
-                    : 'Sélectionnez la date',
-              ),
+              title: Text(selectedDate != null
+                  ? 'Date: ${selectedDate!.toLocal()}'
+                  : 'Sélectionnez la date'),
               trailing: const Icon(Icons.date_range),
               onTap: () async {
-                final selectedDate = await showDatePicker(
+                final DateTime? selected = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime.now(),
                   lastDate: DateTime(2030),
                 );
-                if (selectedDate != null) {
+                if (selected != null && selected != selectedDate) {
                   setState(() {
-                    this.selectedDate = selectedDate;
+                    selectedDate = selected;
                   });
                 }
               },
             ),
             ListTile(
-              title: Text(
-                selectedTime != null
-                    ? 'Heure: ${selectedTime!.hour}:${selectedTime!.minute}'
-                    : 'Sélectionnez l\'heure',
-              ),
+              title: Text(startTime != null
+                  ? 'Heure de début: ${startTime!.format(context)}'
+                  : 'Sélectionnez l\'heure de début'),
               trailing: const Icon(Icons.access_time),
               onTap: () async {
-                final selectedTime = await showTimePicker(
+                final TimeOfDay? selected = await showTimePicker(
                   context: context,
                   initialTime: TimeOfDay.now(),
                 );
-                if (selectedTime != null) {
+                if (selected != null && selected != startTime) {
                   setState(() {
-                    this.selectedTime = selectedTime;
+                    startTime = selected;
+                    calculateDuration();
                   });
                 }
               },
             ),
-            TextFormField(
-              controller: durationController,
-              decoration: const InputDecoration(labelText: 'Durée (minutes)'),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer la durée';
+            ListTile(
+              title: Text(endTime != null
+                  ? 'Heure de fin: ${endTime!.format(context)}'
+                  : 'Sélectionnez l\'heure de fin'),
+              trailing: const Icon(Icons.access_time),
+              onTap: () async {
+                final TimeOfDay? selected = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+                if (selected != null && selected != endTime) {
+                  setState(() {
+                    endTime = selected;
+                    calculateDuration();
+                  });
                 }
-                return null;
               },
+            ),
+            ListTile(
+              title: Text(duration != null
+                  ? 'Durée: ${duration!.inHours}h ${duration!.inMinutes.remainder(60)}m'
+                  : 'La durée sera calculée automatiquement'),
+              trailing: const Icon(Icons.timer),
             ),
             DropdownButtonFormField<String>(
               value: selectedTerrain,
@@ -130,7 +150,7 @@ class _CourseFormState extends State<CourseForm> {
                   selectedTerrain = newValue;
                 });
               },
-              decoration: InputDecoration(labelText: 'Terrain'),
+              decoration: const InputDecoration(labelText: 'Terrain'),
             ),
             DropdownButtonFormField<String>(
               value: selectedDiscipline,
@@ -145,44 +165,32 @@ class _CourseFormState extends State<CourseForm> {
                   selectedDiscipline = newValue;
                 });
               },
-              decoration: InputDecoration(labelText: 'Discipline'),
+              decoration: const InputDecoration(labelText: 'Discipline'),
             ),
             ElevatedButton(
               onPressed: () async {
                 if (selectedDate != null &&
-                    selectedTime != null &&
-                    durationController.text.isNotEmpty &&
+                    startTime != null &&
+                    endTime != null &&
+                    duration != null &&
                     selectedTerrain != null &&
                     selectedDiscipline != null) {
 
-                  // Vérifiez si la durée est un nombre valide
-                  try {
-                    final durationMinutes = int.parse(durationController.text);
-                    if (durationMinutes <= 0) {
-                      showErrorNotification('La durée doit être supérieure à zéro.');
-                      return;
-                    }
-                  } catch (e) {
-                    showErrorNotification('La durée doit être un nombre valide.');
-                    return;
-                  }
-
-                  // Vérifiez si la date est dans le futur
-                  if (selectedDate!.isBefore(DateTime.now())) {
-                    showErrorNotification('La date doit être dans le futur.');
-                    return;
-                  }
-
                   final criteria = CourseCriteria(
-                    terrain: selectedTerrain ?? '',
+                    terrain: selectedTerrain!,
                     date: selectedDate!,
-                    duration: Duration(minutes: int.parse(durationController.text)),
-                    discipline: selectedDiscipline ?? '',
+                    startTime: DateTime(
+                        selectedDate!.year, selectedDate!.month, selectedDate!.day,
+                        startTime!.hour, startTime!.minute),
+                    endTime: DateTime(
+                        selectedDate!.year, selectedDate!.month, selectedDate!.day,
+                        endTime!.hour, endTime!.minute),
+                    discipline: selectedDiscipline!,
                   );
 
-                  if (await saveData(criteria)) {
+                  bool result = await saveData(criteria);
+                  if (result) {
                     showSuccessNotification();
-                    Get.back();
                   } else {
                     showErrorNotification('Erreur lors de l\'enregistrement.');
                   }
@@ -200,32 +208,22 @@ class _CourseFormState extends State<CourseForm> {
 
   Future<bool> saveData(CourseCriteria criteria) async {
     try {
-      final directory = await getTemporaryDirectory();
-      final file = File('${directory.path}/cours.json');
+      var db = mdb.Db(MONGO_URL);
+      await db.open();
 
-      // Chargez les données JSON actuelles
-      final currentData = await jsonDataManager.loadData(file);
-
-      // Ajoutez les nouvelles données
-      currentData['cours'] ??= [];
-      currentData['cours'].add({
+      var collection = db.collection('cours');
+      await collection.insert({
         'terrain': criteria.terrain,
         'date': criteria.date.toIso8601String(),
-        'duration_minutes': criteria.duration.inMinutes,
-        'discipline': criteria.discipline,
+        'startTime': criteria.startTime.toIso8601String(),
+        'endTime': criteria.endTime.toIso8601String(),
+        'discipline': criteria.discipline, // Ajouté la discipline ici
       });
 
-      // Sauvegardez les données mises à jour dans le fichier JSON
-      await jsonDataManager.saveData(file, currentData);
-
-      // Indiquez que l'enregistrement a réussi
-      showSuccessNotification(); // Affichez la notification de succès ici
+      await db.close();
       return true;
-    } catch (error) {
-      // Affichez un message d'erreur explicatif en fonction de l'erreur
-      print('Erreur lors de l\'enregistrement : $error');
-      // Indiquez que l'enregistrement a échoué
-      showErrorNotification('Erreur lors de l\'enregistrement.');
+    } catch (e) {
+      print(e);
       return false;
     }
   }
