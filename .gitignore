@@ -48,3 +48,4 @@ app.*.map.json
 
 # Fichiers personnels
 lib/constant.dart
+/lib/database/constant.dart
