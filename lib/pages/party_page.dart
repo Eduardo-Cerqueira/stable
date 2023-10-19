@@ -40,10 +40,10 @@ class _PartyPageState extends State<PartyPage> {
 
       // Utilisez les valeurs des booléens pour déterminer quelles options ont été sélectionnées
       if (isAperoSelected) {
-        typeSoiree = 'soireea';
+        typeSoiree = 'soireeApero';
       }
       if (isRepasSelected) {
-        typeSoiree = 'soireer';
+        typeSoiree = 'soireeRepas';
       }
 
       print(typeSoiree);

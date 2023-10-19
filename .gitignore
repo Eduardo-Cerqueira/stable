@@ -45,6 +45,10 @@ app.*.map.json
 
 # Environment variables
 **/*.env
+<<<<<<< HEAD
 
 # Fichiers personnels
 lib/constant.dart
+=======
+/lib/database/constant.dart
+>>>>>>> 2c62937 (fix party type and gitignore)
