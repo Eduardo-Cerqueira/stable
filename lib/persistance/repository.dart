@@ -55,22 +55,30 @@ class Collection {
       print(horsesList);
       List<Horse> horses = [];
       for (var item in horsesList) {
-        final horse = Horse(
-            id: item['_id'],
-            name: item['name'],
-            picture: item['picture'],
-            age: item['age'],
-            sex: item['sex'],
-            coat: item['coat'],
-            breed: item['breed'],
-            specialty: item['specialty']);
-        horses.add(horse);
+        horses.add(toHorse(item));
       }
       return horses;
     } catch (e) {
       print(e);
       return null;
     }
+  }
+
+  static Horse toHorse(data) {
+    final horse = Horse(
+        id: data['_id'],
+        name: data['name'],
+        picture: data['picture'],
+        age: data['age'],
+        sex: data['sex'],
+        coat: data['coat'],
+        breed: data['breed'],
+        stable: data['stable'],
+        specialty: data['specialty'],
+        owner: data['owner'],
+        halfBoarder: data['halfBoarder']);
+
+    return horse;
   }
 
   static getUserHorseDocuments(User user) async {
@@ -80,16 +88,23 @@ class Collection {
       print(horsesList);
       List<Horse> horses = [];
       for (var item in horsesList) {
-        final horse = Horse(
-            id: item['_id'],
-            name: item['name'],
-            picture: item['picture'],
-            age: item['age'],
-            sex: item['sex'],
-            coat: item['coat'],
-            breed: item['breed'],
-            specialty: item['specialty']);
-        horses.add(horse);
+        horses.add(toHorse(item));
+      }
+      return horses;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static getHorsesStable(String stableId) async {
+    try {
+      final horsesList =
+          await horseCollection.find({"stable": stableId}).toList();
+      print(horsesList);
+      List<Horse> horses = [];
+      for (var item in horsesList) {
+        horses.add(toHorse(item));
       }
       return horses;
     } catch (e) {
