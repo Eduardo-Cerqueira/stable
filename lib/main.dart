@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:stable/pages/form_user_details.dart';
+import 'package:stable/pages/user_details_page.dart';
 import 'package:stable/persistance/repository.dart';
 
 void main() async {
@@ -8,5 +8,5 @@ void main() async {
       .ensureInitialized(); // Ensure dart and flutter engine are connected
   await Collection.connect();
   runApp(const GetMaterialApp(
-      debugShowCheckedModeBanner: false, home: AddUserPage()));
+      debugShowCheckedModeBanner: false, home: UserDetailsPage()));
 }
