@@ -9,8 +9,9 @@ class Horse {
       required this.sex,
       required this.coat,
       required this.breed,
-      required this.specialty,
-      required this.rider});
+      this.specialty,
+      this.owner,
+      this.halfBoarder});
 
   // Required
   final ObjectId id;
@@ -20,8 +21,9 @@ class Horse {
   final String sex;
   final String coat;
   final String breed;
-  final String specialty;
-  final List<String> rider;
+  final String? specialty;
+  final String? owner;
+  final List<String>? halfBoarder;
 
   Map<String, dynamic> toJson() {
     return {
@@ -33,7 +35,8 @@ class Horse {
       'coat': coat,
       'breed': breed,
       'speciality': specialty,
-      'rider': rider
+      'owner': owner,
+      'halfBoarder': halfBoarder,
     };
   }
 
@@ -47,6 +50,7 @@ class Horse {
         coat: json['coat'],
         breed: json['breed'],
         specialty: json['specialty'],
-        rider: json['rider']);
+        owner: json['owner'],
+        halfBoarder: json['halfBoarder']);
   }
 }

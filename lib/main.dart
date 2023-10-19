@@ -6,7 +6,7 @@ import 'package:stable/persistance/user_repository.dart';
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensure dart and flutter engine are connected
-  await UserDatabase.connect();
-  runApp(
-      GetMaterialApp(debugShowCheckedModeBanner: false, home: AddUserPage()));
+  await Collection.connect();
+  runApp(const GetMaterialApp(
+      debugShowCheckedModeBanner: false, home: AddUserPage()));
 }
