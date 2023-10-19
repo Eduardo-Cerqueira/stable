@@ -1,1 +1,0 @@
-const MONGO_URL = "mongodb+srv://noeheylemadec:orRiBVJwTwhVHgwv@test.otsxnmi.mongodb.net/Ben";

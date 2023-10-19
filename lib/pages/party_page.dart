@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:stable/database/create_party.dart';
 import 'package:get/get.dart';
-import 'package:stable/pages/party_list_page.dart';
+import 'package:stable/pages/home_page.dart';
 
 class PartyPage extends StatefulWidget {
-  final String argument;
+  final String userID; 
 
-  PartyPage({Key? key, required this.argument}) : super(key: key);
+  const PartyPage({Key? key, required this.userID}) : super(key: key); 
 
   @override
   _PartyPageState createState() => _PartyPageState();
 }
+
 
 class _PartyPageState extends State<PartyPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -21,24 +22,25 @@ class _PartyPageState extends State<PartyPage> {
   DateTime? selectedDate;
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = (await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    ))!;
+  final DateTime picked = (await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime.now(),
+    lastDate: DateTime(2101),
+  ))!;
 
-    if (picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
+  if (picked != selectedDate) {
+    setState(() {
+      selectedDate = DateTime(picked.year, picked.month, picked.day);
+    });
   }
+}
+
 
   void _submitForm() {
     if (_formKey.currentState!.validate() && selectedDate != null) {
       _formKey.currentState!.save();
 
-      // Utilisez les valeurs des booléens pour déterminer quelles options ont été sélectionnées
       if (isAperoSelected) {
         typeSoiree = 'soireeApero';
       }
@@ -48,10 +50,10 @@ class _PartyPageState extends State<PartyPage> {
 
       print(typeSoiree);
       print(nomSoireeController.text);
-      print(selectedDate); // Date sélectionnée par l'utilisateur
+      print(selectedDate); 
 
-      // Connexion à la base de données et insertion du document avec les données du formulaire
-      MongoDataBase.insertEvent(nomSoireeController.text, typeSoiree, selectedDate);
+      MongoDataBase.insertEvent(nomSoireeController.text, typeSoiree, selectedDate, widget.userID);
+
     }
   }
 
@@ -69,7 +71,6 @@ class _PartyPageState extends State<PartyPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Champ de texte pour le nom de la soirée
                 TextFormField(
                   controller: nomSoireeController,
                   decoration: InputDecoration(labelText: 'Nom de la soirée'),
@@ -96,7 +97,7 @@ class _PartyPageState extends State<PartyPage> {
                                 });
                               },
                             ),
-                            Image.asset('assets/apero.jpeg', width: 30, height: 30), // Remplacez par le chemin de votre image
+                            Image.asset('assets/apero.jpeg', width: 30, height: 30), 
                           ],
                         ),
                         Text('Apéro', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -115,7 +116,7 @@ class _PartyPageState extends State<PartyPage> {
                                 });
                               },
                             ),
-                            Image.asset('assets/repas.jpeg', width: 30, height: 30), // Remplacez par le chemin de votre image
+                            Image.asset('assets/repas.jpeg', width: 30, height: 30), 
                           ],
                         ),
                         Text('Repas', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -134,7 +135,7 @@ class _PartyPageState extends State<PartyPage> {
                 ElevatedButton(
                   onPressed: () {
                     _submitForm();
-                    Get.to(ListeSoireesPage(argument: 'oui'));
+                    Get.to(HomePage());
                   },
                   child: Text('Créer la soirée'),
                 ),
