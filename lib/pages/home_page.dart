@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'program_cours_page.dart';
 import 'ManageCoursesPage.dart';
+import 'ManageSoireesPage.dart';
 
 class Controller extends GetxController {
   var count = 0.obs;
@@ -45,7 +46,14 @@ class HomePage extends StatelessWidget {
               title: const Text('Gérer les cours'),
               onTap: () {
                 // Naviguez vers ManageCoursesPage
-                Get.to(ManageCoursesPage());
+                Get.to(const ManageCoursesPage());
+              },
+            ),
+            ListTile(
+              title: const Text('Gérer les soirées'),
+              onTap: () {
+                // Naviguez vers ManageSoireesPage
+                Get.to(() => const ManageSoireesPage());
               },
             ),
           ],
