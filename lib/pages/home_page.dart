@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stable/pages/profile.dart';
 import 'program_cours_page.dart';
 import 'ManageCoursesPage.dart';
 import 'ManageSoireesPage.dart';
@@ -18,6 +19,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            onPressed: () => Get.to(() => MyForm()),
+            icon: const Icon(Icons.navigate_next))
+        ],
         leading: Builder(
           builder: (context) => IconButton(
             icon: const Icon(Icons.menu),
@@ -25,6 +31,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
+      
       body: Obx(() => Text("${c.count}")),
       drawer: Drawer(
         child: ListView(
@@ -64,6 +71,8 @@ class HomePage extends StatelessWidget {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+      
     );
+    
   }
 }
