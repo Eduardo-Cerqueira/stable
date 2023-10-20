@@ -19,7 +19,7 @@ class _MyFormState extends State<MyForm> {
   File? _selectedImage;
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -43,11 +43,11 @@ class _MyFormState extends State<MyForm> {
 
   void _submit() async {
     if (_db != null) {
-      final String name = _nameController.text;
+      final String username = _usernameController.text;
       final String email = _emailController.text;
       final String password = _passwordController.text;
       insertUsers(_db,
-          {"name": name, "email": email, "password": password, "image": _image});
+          {"username": username, "email": email, "password": password, "image": _image});
     } else {
       print("noDB");
     }
@@ -112,12 +112,12 @@ class _MyFormState extends State<MyForm> {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  controller: _nameController,
+                  controller: _usernameController,
                   decoration:
                       const InputDecoration(labelText: "Username"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your name.';
+                      return 'Please enter a username.';
                     }
                     return null;
                   },
