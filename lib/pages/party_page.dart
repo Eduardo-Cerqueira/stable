@@ -6,13 +6,13 @@ import 'package:stable/pages/home_page.dart';
 class PartyPage extends StatefulWidget {
   final dynamic user;
 
-  const PartyPage({super.key, required this.user});
+  const PartyPage({Key? key, required this.user}) : super(key: key);
 
   @override
-  PartyPageState createState() => PartyPageState();
+  _PartyPageState createState() => _PartyPageState();
 }
 
-class PartyPageState extends State<PartyPage> {
+class _PartyPageState extends State<PartyPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController nomSoireeController = TextEditingController();
   bool isAperoSelected = false;
@@ -64,7 +64,7 @@ class PartyPageState extends State<PartyPage> {
             title: const Text('Party Page'),
             backgroundColor: Colors.blue,
             leading: IconButton(
-                onPressed: () => Get.to(() => HomePage(user: widget.user)),
+                onPressed: () => Get.to(() => const HomePage()),
                 icon: const Icon(Icons.navigate_next))),
         body: Center(
           child: Form(
@@ -141,7 +141,7 @@ class PartyPageState extends State<PartyPage> {
                 ElevatedButton(
                   onPressed: () {
                     _submitForm();
-                    Get.to(HomePage(user: widget.user));
+                    Get.to(const HomePage());
                   },
                   child: const Text('Créer la soirée'),
                 ),

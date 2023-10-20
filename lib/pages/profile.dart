@@ -1,7 +1,5 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:stable/pages/login_page.dart';
 import '../database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -19,10 +17,11 @@ class MyForm extends StatefulWidget {
 
 class _MyFormState extends State<MyForm> {
   File? _selectedImage;
+  bool isManager = false;
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   var _db;
@@ -45,14 +44,15 @@ class _MyFormState extends State<MyForm> {
 
   void _submit() async {
     if (_db != null) {
-      final String username = _usernameController.text;
-      final String email = _emailController.text;
+      final String name = _nameController.text;
+      final String mail = _mailController.text;
       final String password = _passwordController.text;
       insertUsers(_db, {
-        "username": username,
-        "email": email,
+        "name": name,
+        "mail": mail,
         "password": password,
-        "image": _image
+        "image": _image,
+        "isManager": isManager // Ajouter le statut de gérant à la base de données.
       });
     } else {
       print("noDB");
@@ -106,10 +106,6 @@ class _MyFormState extends State<MyForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text("Register"),
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -118,36 +114,43 @@ class _MyFormState extends State<MyForm> {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  controller: _usernameController,
+                  controller: _nameController,
                   decoration:
-                      const InputDecoration(labelText: "Username"),
+                      const InputDecoration(labelText: "Nom d 'utilisateur"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter a username.';
+                      return 'Veuillez entrer votre nom.';
                     }
                     return null;
                   },
                 ),
                 TextFormField(
-                  controller: _emailController,
-                  decoration:
-                      const InputDecoration(labelText: "E-mail Address"),
+                  controller: _mailController,
+                  decoration: const InputDecoration(labelText: "Adresse mail"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your e-mail address.';
+                      return 'Veuillez entrer votre mail.';
                     }
                     return null;
                   },
                 ),
                 TextFormField(
-                  obscureText: true,
                   controller: _passwordController,
-                  decoration: const InputDecoration(labelText: "Password"),
+                  decoration: const InputDecoration(labelText: "Mot de passe"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter a password.';
+                      return 'Veuillez entrer votre mot de passe.';
                     }
                     return null;
+                  },
+                ),
+                SwitchListTile(  // Ajouter un switch pour définir le rôle de l'utilisateur.
+                  title: const Text('Est un gérant?'),
+                  value: isManager,
+                  onChanged: (bool value) {
+                    setState(() {
+                      isManager = value;
+                    });
                   },
                 ),
                 MaterialButton(
@@ -171,15 +174,14 @@ class _MyFormState extends State<MyForm> {
                 _selectedImage != null
                     ? Image.file(_selectedImage!,
                         width: 150, height: 150, fit: BoxFit.cover)
-                    : const Text("Please pick an image"),
+                    : const Text("veuillez selectionner une image"),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _submit();
-                      Get.to(const LoginPage());
                     }
                   },
-                  child: const Text('Submit'),
+                  child: const Text('Envoyer'),
                 ),
               ],
             ),
