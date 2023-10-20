@@ -46,7 +46,7 @@ class _MyFormState extends State<MyForm> {
       final String name = _nameController.text;
       final String mail = _mailController.text;
       final String password = _passwordController.text;
-      insertUsers(_db,
+      insertUser(_db,
           {"name": name, "mail": mail, "password": password, "image": _image});
     } else {
       print("noDB");
