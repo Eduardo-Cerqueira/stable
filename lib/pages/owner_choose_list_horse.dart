@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mongo_dart/mongo_dart.dart' as m;
 import 'package:stable/models/horse.dart';
 import 'package:stable/models/user.dart';
+import 'package:stable/pages/user_details_page.dart';
 import 'package:stable/persistance/repository.dart';
 import 'package:niku/namespace.dart' as n;
 
@@ -49,6 +51,12 @@ class ListHorsesState extends State<ListHorses> {
   Widget build(BuildContext context) {
     final User user = User.fromJson(jsonDecode(userData));
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          leading: IconButton(
+              onPressed: () => Get.to(() => const UserDetailsPage()),
+              icon: const Icon(Icons.navigate_next)),
+        ),
         body: n.Column([
           Expanded(
             child: n.ListView.builder(itemBuilder: (context, index) {

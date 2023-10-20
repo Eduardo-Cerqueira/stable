@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stable/models/horse.dart';
+import 'package:stable/pages/home_page.dart';
 import 'package:stable/pages/owner_choose_list_horse.dart';
 import 'package:stable/pages/user_horses_detail.dart';
 import 'package:stable/persistance/repository.dart';
@@ -55,6 +56,11 @@ class UserDetailsPageState extends State<UserDetailsPage> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          leading: IconButton(
+              onPressed: () => Get.to(() => const HomePage()),
+              icon: const Icon(Icons.navigate_next))),
       body: Stack(
         children: [
           SingleChildScrollView(
