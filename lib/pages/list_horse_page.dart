@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mongo_dart/mongo_dart.dart' as m;
@@ -53,7 +52,7 @@ class ListHorsesPageState extends State<ListHorsesPage> {
                         title: Text(horsesList[index]["name"]),
                         subtitle: Text(horsesList[index]["stable"]),
                         tileColor: horsesList[index]["owner"] != null &&
-                                horsesList[index]["owner"] == widget.user.id
+                                horsesList[index]["owner"] == widget.user["_id"]
                             ? Colors.amber[50]
                             : Colors.white,
                         onTap: () {
