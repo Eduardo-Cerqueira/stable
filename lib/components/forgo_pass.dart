@@ -92,7 +92,7 @@ class ForgoPassFormState extends State<ForgoPassForm> {
                   if (user != null) {
                     if (emailController.text == user['email'] && usernameController.text == user['username']) {
                       // if ok then go to home page
-                      Get.to(const ModifyPassPage());
+                      Get.to(ModifyPassPage(user: user));
                     } else {
                       Get.snackbar('Error', 'Username is incorrect',
                               backgroundColor: Colors.red[300]);
