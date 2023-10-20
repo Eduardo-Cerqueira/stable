@@ -20,7 +20,7 @@ class _MyFormState extends State<MyForm> {
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _mailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   var _db;
@@ -44,10 +44,10 @@ class _MyFormState extends State<MyForm> {
   void _submit() async {
     if (_db != null) {
       final String name = _nameController.text;
-      final String mail = _mailController.text;
+      final String email = _emailController.text;
       final String password = _passwordController.text;
       insertUsers(_db,
-          {"name": name, "mail": mail, "password": password, "image": _image});
+          {"name": name, "email": email, "password": password, "image": _image});
     } else {
       print("noDB");
     }
@@ -100,6 +100,10 @@ class _MyFormState extends State<MyForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: const Text("Register"),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -110,30 +114,31 @@ class _MyFormState extends State<MyForm> {
                 TextFormField(
                   controller: _nameController,
                   decoration:
-                      const InputDecoration(labelText: "Nom d 'utilisateur"),
+                      const InputDecoration(labelText: "Username"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez entrer votre nom.';
+                      return 'Please enter your name.';
                     }
                     return null;
                   },
                 ),
                 TextFormField(
-                  controller: _mailController,
-                  decoration: const InputDecoration(labelText: "Adresse mail"),
+                  controller: _emailController,
+                  decoration: const InputDecoration(labelText: "E-mail Address"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez entrer votre mail.';
+                      return 'Please enter your e-mail address.';
                     }
                     return null;
                   },
                 ),
                 TextFormField(
+                  obscureText: true,
                   controller: _passwordController,
-                  decoration: const InputDecoration(labelText: "Mot de passe"),
+                  decoration: const InputDecoration(labelText: "Password"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez entrer votre mot de passe.';
+                      return 'Please enter a password.';
                     }
                     return null;
                   },
@@ -159,14 +164,14 @@ class _MyFormState extends State<MyForm> {
                 _selectedImage != null
                     ? Image.file(_selectedImage!,
                         width: 150, height: 150, fit: BoxFit.cover)
-                    : const Text("veuillez selectionner une image"),
+                    : const Text("Please pick an image"),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _submit();
                     }
                   },
-                  child: const Text('Envoyer'),
+                  child: const Text('Submit'),
                 ),
               ],
             ),
