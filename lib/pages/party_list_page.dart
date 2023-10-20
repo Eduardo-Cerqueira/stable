@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mongo_dart/mongo_dart.dart' as m;
 import 'package:stable/database/list_party_database.dart';
 import 'package:stable/database/party_actions.dart';
 
@@ -66,7 +65,7 @@ class _ListeSoireesPageState extends State<ListeSoireesPage> {
     );
   }
 
-  void _addPartyItem(m.ObjectId userID) async {
+  void _addPartyItem(String userID) async {
     final itemToBring = itemToBringController.text;
     if (itemToBring.isNotEmpty && selectedSoireeIndex >= 0) {
       await PartyActions.bringItemToParty(

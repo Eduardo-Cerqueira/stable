@@ -3,12 +3,12 @@ import 'package:mongo_dart/mongo_dart.dart';
 
 class PartyActions {
   static Future<void> bringItemToParty(
-      String soireeName, String itemToBring, ObjectId userId) async {
+      String soireeName, String itemToBring, String userID) async {
     final Db db = await Db.create(MONGO_URL);
     await db.open();
     var partyCollection = db.collection('soirees_evenements');
     var userCollection = db.collection('users');
-    var user = await userCollection.findOne(where.id(userId));
+    var user = await userCollection.findOne(where.id(ObjectId.parse(userID)));
 
     Map<String, dynamic>? party =
         await partyCollection.findOne(where.eq('name', soireeName));
