@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:stable/pages/login_page.dart';
 import '../database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -46,8 +48,12 @@ class _MyFormState extends State<MyForm> {
       final String name = _nameController.text;
       final String email = _emailController.text;
       final String password = _passwordController.text;
-      insertUsers(_db,
-          {"name": name, "email": email, "password": password, "image": _image});
+      insertUsers(_db, {
+        "name": name,
+        "email": email,
+        "password": password,
+        "image": _image
+      });
     } else {
       print("noDB");
     }
@@ -113,8 +119,7 @@ class _MyFormState extends State<MyForm> {
               children: <Widget>[
                 TextFormField(
                   controller: _nameController,
-                  decoration:
-                      const InputDecoration(labelText: "Username"),
+                  decoration: const InputDecoration(labelText: "Username"),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your name.';
@@ -124,7 +129,8 @@ class _MyFormState extends State<MyForm> {
                 ),
                 TextFormField(
                   controller: _emailController,
-                  decoration: const InputDecoration(labelText: "E-mail Address"),
+                  decoration:
+                      const InputDecoration(labelText: "E-mail Address"),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your e-mail address.';
@@ -169,6 +175,7 @@ class _MyFormState extends State<MyForm> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _submit();
+                      Get.to(const LoginPage());
                     }
                   },
                   child: const Text('Submit'),
