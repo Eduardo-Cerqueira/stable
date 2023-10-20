@@ -17,6 +17,7 @@ class MyForm extends StatefulWidget {
 
 class _MyFormState extends State<MyForm> {
   File? _selectedImage;
+  bool isManager = false;
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
@@ -46,8 +47,14 @@ class _MyFormState extends State<MyForm> {
       final String name = _nameController.text;
       final String mail = _mailController.text;
       final String password = _passwordController.text;
-      insertUser(_db,
-          {"name": name, "mail": mail, "password": password, "image": _image});
+      
+      insertUsers(_db, {
+        "name": name,
+        "mail": mail,
+        "password": password,
+        "image": _image,
+        "isManager": isManager // Ajouter le statut de gérant à la base de données.
+      });
     } else {
       print("noDB");
     }
@@ -136,6 +143,15 @@ class _MyFormState extends State<MyForm> {
                       return 'Veuillez entrer votre mot de passe.';
                     }
                     return null;
+                  },
+                ),
+                SwitchListTile(  // Ajouter un switch pour définir le rôle de l'utilisateur.
+                  title: const Text('Est un gérant?'),
+                  value: isManager,
+                  onChanged: (bool value) {
+                    setState(() {
+                      isManager = value;
+                    });
                   },
                 ),
                 MaterialButton(

@@ -98,7 +98,7 @@ class LoginFormState extends State<LoginForm> {
                           Get.snackbar('Error', 'Invalid Credentials',
                               backgroundColor: Colors.red[300]);
                         }
-                        Get.to(HomePage(user: user));
+                        Get.to(() => HomePage(user: user));
                       }
                     }
                   } else {
