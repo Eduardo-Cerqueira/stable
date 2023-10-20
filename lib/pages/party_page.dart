@@ -9,10 +9,10 @@ class PartyPage extends StatefulWidget {
   const PartyPage({Key? key, required this.user}) : super(key: key);
 
   @override
-  _PartyPageState createState() => _PartyPageState();
+  PartyPageState createState() => PartyPageState();
 }
 
-class _PartyPageState extends State<PartyPage> {
+class PartyPageState extends State<PartyPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController nomSoireeController = TextEditingController();
   bool isAperoSelected = false;
@@ -64,7 +64,7 @@ class _PartyPageState extends State<PartyPage> {
             title: const Text('Party Page'),
             backgroundColor: Colors.blue,
             leading: IconButton(
-                onPressed: () => Get.to(() => const HomePage()),
+                onPressed: () => Get.to(() => HomePage(user: widget.user)),
                 icon: const Icon(Icons.navigate_next))),
         body: Center(
           child: Form(
