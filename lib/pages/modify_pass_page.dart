@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stable/components/modify_pass.dart';
 
 class ModifyPassPage extends StatelessWidget {
-  const ModifyPassPage({Key? key}) : super(key: key);
+  final dynamic user;
+  const ModifyPassPage({super.key, this.user});
   
   @override
   Widget build(BuildContext context) {
@@ -13,10 +14,10 @@ class ModifyPassPage extends StatelessWidget {
           backgroundColor: Colors.orange,
           title: const Text('Change Password'),
           ),
-          body: const Column(
+          body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ModifyPassForm(),
+              ModifyPassForm(user: user),
             ],
         ),
       )

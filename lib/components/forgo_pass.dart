@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stable/.env.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mdb;
 import 'package:stable/pages/modify_pass_page.dart';
 
 
@@ -11,11 +13,34 @@ class ForgoPassForm extends StatefulWidget {
     return ForgoPassFormState();
   }
 }
+ 
 class ForgoPassFormState extends State<ForgoPassForm> {
     final _formKey = GlobalKey<FormState>();
+
     TextEditingController emailController = TextEditingController();
     TextEditingController usernameController = TextEditingController();
 
+  var user;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+  _fetchUserByEmail() async {
+    var db = mdb.Db(MONGO_URL);
+    await db.open();
+
+    var collection = db.collection('users');
+    var userData =
+        await collection.findOne(mdb.where.eq("email", emailController.text));
+    print(userData);
+
+    setState(() {
+      user = userData;
+    });
+
+    await db.close();
+  }
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -63,17 +88,18 @@ class ForgoPassFormState extends State<ForgoPassForm> {
             child: ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                    var dbUser = 'email'; //db.findUser(emailController.text);
-                    var user = dbUser;
-                  if (emailController.text == dbUser && usernameController.text == user) {
-                    // if ok then go to home page
-                    Get.to(const ModifyPassPage());
+                  await _fetchUserByEmail();
+                  if (user != null) {
+                    if (emailController.text == user['email'] && usernameController.text == user['username']) {
+                      // if ok then go to home page
+                      Get.to(ModifyPassPage(user: user));
+                    } else {
+                      Get.snackbar('Error', 'Username is incorrect',
+                              backgroundColor: Colors.red[300]);
+                    }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Invalid Credentials')
-                        ),
-                    );
+                   Get.snackbar('Error', 'User does not exist',
+                              backgroundColor: Colors.red[300]);
                   }
                 }else {
                   ScaffoldMessenger.of(context).showSnackBar(
