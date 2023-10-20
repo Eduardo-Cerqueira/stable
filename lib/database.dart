@@ -1,11 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-import 'constant.dart';
+import 'package:stable/.env.dart';
 
 connection() async {
-  const connectionString = '';
-
-  var db = await Db.create(connectionString);
+  var db = await Db.create(MONGO_URL);
 
   // var db = Db.pool([
   //     connectionString,

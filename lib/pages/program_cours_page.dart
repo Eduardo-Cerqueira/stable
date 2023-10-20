@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stable/constant.dart';
+import 'package:stable/.env.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mdb;
 
 class CourseCriteria {
@@ -34,7 +34,11 @@ class _CourseFormState extends State<CourseForm> {
   Duration? duration;
 
   final List<String> terrainOptions = ['Carrière', 'Manège'];
-  final List<String> disciplineOptions = ['Dressage', 'Saut d\'obstacle', 'Endurance'];
+  final List<String> disciplineOptions = [
+    'Dressage',
+    'Saut d\'obstacle',
+    'Endurance'
+  ];
   String? selectedTerrain;
   String? selectedDiscipline;
 
@@ -58,10 +62,10 @@ class _CourseFormState extends State<CourseForm> {
 
   void calculateDuration() {
     if (selectedDate != null && startTime != null && endTime != null) {
-      final start = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day,
-          startTime!.hour, startTime!.minute);
-      final end = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day,
-          endTime!.hour, endTime!.minute);
+      final start = DateTime(selectedDate!.year, selectedDate!.month,
+          selectedDate!.day, startTime!.hour, startTime!.minute);
+      final end = DateTime(selectedDate!.year, selectedDate!.month,
+          selectedDate!.day, endTime!.hour, endTime!.minute);
 
       setState(() {
         duration = end.difference(start);
@@ -176,16 +180,13 @@ class _CourseFormState extends State<CourseForm> {
                     duration != null &&
                     selectedTerrain != null &&
                     selectedDiscipline != null) {
-
                   final criteria = CourseCriteria(
                     terrain: selectedTerrain!,
                     date: selectedDate!,
-                    startTime: DateTime(
-                        selectedDate!.year, selectedDate!.month, selectedDate!.day,
-                        startTime!.hour, startTime!.minute),
-                    endTime: DateTime(
-                        selectedDate!.year, selectedDate!.month, selectedDate!.day,
-                        endTime!.hour, endTime!.minute),
+                    startTime: DateTime(selectedDate!.year, selectedDate!.month,
+                        selectedDate!.day, startTime!.hour, startTime!.minute),
+                    endTime: DateTime(selectedDate!.year, selectedDate!.month,
+                        selectedDate!.day, endTime!.hour, endTime!.minute),
                     discipline: selectedDiscipline!,
                   );
 
@@ -196,7 +197,8 @@ class _CourseFormState extends State<CourseForm> {
                     showErrorNotification('Erreur lors de l\'enregistrement.');
                   }
                 } else {
-                  showErrorNotification('Veuillez remplir tous les champs obligatoires.');
+                  showErrorNotification(
+                      'Veuillez remplir tous les champs obligatoires.');
                 }
               },
               child: const Text('Enregistrer'),

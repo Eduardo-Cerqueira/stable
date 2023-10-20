@@ -1,15 +1,17 @@
-import 'constant.dart';
+import 'package:stable/.env.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class PartyActions {
-  static Future<void> bringItemToParty(String soireeName, String itemToBring, String userID) async {
+  static Future<void> bringItemToParty(
+      String soireeName, String itemToBring, String userID) async {
     final Db db = await Db.create(MONGO_URL);
     await db.open();
     var partyCollection = db.collection('soirees_evenements');
     var userCollection = db.collection('users');
     var user = await userCollection.findOne(where.id(ObjectId.parse(userID)));
 
-    Map<String, dynamic>? party = await partyCollection.findOne(where.eq('name', soireeName));
+    Map<String, dynamic>? party =
+        await partyCollection.findOne(where.eq('name', soireeName));
 
     if (party != null) {
       List<dynamic> items = party['items'] ?? <dynamic>[];
@@ -38,7 +40,8 @@ class PartyActions {
         }
 
         // Mettez à jour le champ 'items' dans la base de données
-        await partyCollection.update(where.eq('name', soireeName), modify.set('items', items));
+        await partyCollection.update(
+            where.eq('name', soireeName), modify.set('items', items));
         print('Élément ajouté à la soirée $soireeName : $itemToBring');
       }
     }

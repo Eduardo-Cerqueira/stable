@@ -1,4 +1,4 @@
-import 'package:stable/env.dart';
+import 'package:stable/.env.dart';
 import 'dart:developer';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -9,7 +9,7 @@ class MongoDataBase {
     inspect(db);
     var status = db.serverStatus();
     inspect(status);
-    
+
     // ignore: avoid_print
     print("connected to MongoDB");
     return db;

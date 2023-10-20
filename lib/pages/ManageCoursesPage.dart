@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mdb;
-import 'package:stable/constant.dart';
+import 'package:stable/.env.dart';
 
 class ManageCoursesPage extends StatefulWidget {
   const ManageCoursesPage({super.key});
@@ -18,7 +18,6 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
     _fetchAllCourses();
   }
 
-
   Future<void> _fetchAllCourses() async {
     var db = mdb.Db(MONGO_URL);
     await db.open();
@@ -33,7 +32,6 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
     await db.close();
   }
 
-
   String extractObjectId(String rawId) {
     var matches = RegExp(r'ObjectId\("([a-fA-F0-9]{24})"\)').firstMatch(rawId);
     return matches?.group(1) ?? '';
@@ -46,7 +44,8 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
     var hexId = extractObjectId(id);
 
     var collection = db.collection('cours');
-    await collection.update(mdb.where.eq("_id", mdb.ObjectId.fromHexString(hexId)), {
+    await collection
+        .update(mdb.where.eq("_id", mdb.ObjectId.fromHexString(hexId)), {
       '\$set': {'status': status}
     });
 
@@ -56,7 +55,6 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
     _fetchAllCourses();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,66 +62,74 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
       body: courses == null
           ? const CircularProgressIndicator()
           : ListView.builder(
-        itemCount: courses!.length,
-        itemBuilder: (context, index) {
-          var course = courses![index];
+              itemCount: courses!.length,
+              itemBuilder: (context, index) {
+                var course = courses![index];
 
-          Color? tileColor;
-          List<Widget> actions = []; // Boutons d'action
+                Color? tileColor;
+                List<Widget> actions = []; // Boutons d'action
 
-          switch (course['status']) {
-            case 'ACCEPTED':
-              tileColor = Colors.green[100];  // vert pour validé
-              actions.add(
-                ElevatedButton(
-                  onPressed: null,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  child: const Text('Validé'),
-                ),
-              );
-              break;
-            case 'REJECTED':
-              tileColor = Colors.red[100];  // rouge pour refusé
-              actions.add(
-                ElevatedButton(
-                  onPressed: null,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: const Text('Refusé'),
-                ),
-              );
-              break;
-            default:
-              tileColor = Colors.grey[100];  // gris pour en attente
-              actions.addAll([
-                ElevatedButton(
-                  onPressed: () {
-                    _updateCourseStatus(course['_id'].toString(), 'ACCEPTED');
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  child: const Text('Valider'),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    _updateCourseStatus(course['_id'].toString(), 'REJECTED');
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: const Text('Refuser'),
-                ),
-              ]);
-          }
+                switch (course['status']) {
+                  case 'ACCEPTED':
+                    tileColor = Colors.green[100]; // vert pour validé
+                    actions.add(
+                      ElevatedButton(
+                        onPressed: null,
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        child: const Text('Validé'),
+                      ),
+                    );
+                    break;
+                  case 'REJECTED':
+                    tileColor = Colors.red[100]; // rouge pour refusé
+                    actions.add(
+                      ElevatedButton(
+                        onPressed: null,
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
+                        child: const Text('Refusé'),
+                      ),
+                    );
+                    break;
+                  default:
+                    tileColor = Colors.grey[100]; // gris pour en attente
+                    actions.addAll([
+                      ElevatedButton(
+                        onPressed: () {
+                          _updateCourseStatus(
+                              course['_id'].toString(), 'ACCEPTED');
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        child: const Text('Valider'),
+                      ),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          _updateCourseStatus(
+                              course['_id'].toString(), 'REJECTED');
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
+                        child: const Text('Refuser'),
+                      ),
+                    ]);
+                }
 
-          return ListTile(
-            tileColor: tileColor,
-            title: Text('Date: ${course['date']}, Terrain: ${course['terrain']}, Discipline: ${course['discipline']}'),
-            subtitle: Text('De ${course['startTime']} à ${course['endTime']}'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: actions,
+                return ListTile(
+                  tileColor: tileColor,
+                  title: Text(
+                      'Date: ${course['date']}, Terrain: ${course['terrain']}, Discipline: ${course['discipline']}'),
+                  subtitle:
+                      Text('De ${course['startTime']} à ${course['endTime']}'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: actions,
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

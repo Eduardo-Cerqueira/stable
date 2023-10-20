@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stable/constant.dart';
+import 'package:stable/.env.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mdb;
 
 class ManageSoireesPage extends StatefulWidget {
@@ -40,7 +40,7 @@ class _ManageSoireesPageState extends State<ManageSoireesPage> {
 
   Future<void> _updateSoireeStatus(String id, String status) async {
     setState(() {
-      isUpdating = true;  // Début de la mise à jour
+      isUpdating = true; // Début de la mise à jour
     });
 
     var db = mdb.Db(MONGO_URL);
@@ -49,7 +49,8 @@ class _ManageSoireesPageState extends State<ManageSoireesPage> {
     var collection = db.collection('soirees_evenements');
     var hexId = extractObjectId(id);
 
-    await collection.update(mdb.where.eq("_id", mdb.ObjectId.fromHexString(hexId)), {
+    await collection
+        .update(mdb.where.eq("_id", mdb.ObjectId.fromHexString(hexId)), {
       '\$set': {'status': status}
     });
 
@@ -58,7 +59,7 @@ class _ManageSoireesPageState extends State<ManageSoireesPage> {
     // Refresh the list
     _fetchAllSoirees().then((_) {
       setState(() {
-        isUpdating = false;  // Fin de la mise à jour
+        isUpdating = false; // Fin de la mise à jour
       });
     });
   }
@@ -70,67 +71,74 @@ class _ManageSoireesPageState extends State<ManageSoireesPage> {
       body: soirees == null
           ? const Center(child: CircularProgressIndicator())
           : isUpdating
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        itemCount: soirees!.length,
-        itemBuilder: (context, index) {
-          var soiree = soirees![index];
-          Color? tileColor;
-          List<Widget> actions = []; // Boutons d'action
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: soirees!.length,
+                  itemBuilder: (context, index) {
+                    var soiree = soirees![index];
+                    Color? tileColor;
+                    List<Widget> actions = []; // Boutons d'action
 
-          switch (soiree['status']) {
-            case 'ACCEPTED':
-              tileColor = Colors.green[100]; // vert pour validé
-              actions.add(
-                ElevatedButton(
-                  onPressed: null,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  child: const Text('Validé'),
-                ),
-              );
-              break;
-            case 'REJECTED':
-              tileColor = Colors.red[100]; // rouge pour refusé
-              actions.add(
-                ElevatedButton(
-                  onPressed: null,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: const Text('Refusé'),
-                ),
-              );
-              break;
-            default:
-              tileColor = Colors.grey[100]; // gris pour en attente
-              actions.addAll([
-                ElevatedButton(
-                  onPressed: () {
-                    _updateSoireeStatus(soiree['_id'].toString(), 'ACCEPTED');
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  child: const Text('Valider'),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    _updateSoireeStatus(soiree['_id'].toString(), 'REJECTED');
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: const Text('Refuser'),
-                ),
-              ]);
-          }
+                    switch (soiree['status']) {
+                      case 'ACCEPTED':
+                        tileColor = Colors.green[100]; // vert pour validé
+                        actions.add(
+                          ElevatedButton(
+                            onPressed: null,
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green),
+                            child: const Text('Validé'),
+                          ),
+                        );
+                        break;
+                      case 'REJECTED':
+                        tileColor = Colors.red[100]; // rouge pour refusé
+                        actions.add(
+                          ElevatedButton(
+                            onPressed: null,
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red),
+                            child: const Text('Refusé'),
+                          ),
+                        );
+                        break;
+                      default:
+                        tileColor = Colors.grey[100]; // gris pour en attente
+                        actions.addAll([
+                          ElevatedButton(
+                            onPressed: () {
+                              _updateSoireeStatus(
+                                  soiree['_id'].toString(), 'ACCEPTED');
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green),
+                            child: const Text('Valider'),
+                          ),
+                          const SizedBox(width: 10),
+                          ElevatedButton(
+                            onPressed: () {
+                              _updateSoireeStatus(
+                                  soiree['_id'].toString(), 'REJECTED');
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red),
+                            child: const Text('Refuser'),
+                          ),
+                        ]);
+                    }
 
-          return ListTile(
-            tileColor: tileColor,
-            title: Text('${soiree['name']} le ${soiree['date'].toLocal()}'),
-            subtitle: Text('Créateur: ${soiree['createur']}'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: actions,
-            ),
-          );
-        },
-      ),
+                    return ListTile(
+                      tileColor: tileColor,
+                      title: Text(
+                          '${soiree['name']} le ${soiree['date'].toLocal()}'),
+                      subtitle: Text('Créateur: ${soiree['createur']}'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: actions,
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }

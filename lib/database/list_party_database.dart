@@ -1,5 +1,5 @@
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:stable/database/constant.dart';
+import 'package:stable/.env.dart';
 
 class ListParty {
   static Future<List<Map<String, dynamic>>> fetchSoirees() async {
