@@ -23,7 +23,6 @@ class ModifyPassFormState extends State<ModifyPassForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text('Password'),
@@ -68,21 +67,22 @@ class ModifyPassFormState extends State<ModifyPassForm> {
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
-                  if(passwordController.text == confirmePasswordController.text){
-                    try{
+                  if (passwordController.text ==
+                      confirmePasswordController.text) {
+                    try {
                       //db insert new password
-                      Get.to(LoginPage(argument: 'Password changed'));
+                      Get.to(LoginPage());
                     } catch (e) {
                       // ignore: avoid_print
                       print(e);
                     }
                   } else {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Passwords do not match')));
                   }
-                }else{
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text('Please enter new password')));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Please enter new password')));
                 }
               },
               child: const Text('Submit'),

@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../database.dart';
 import 'package:image_picker/image_picker.dart';
@@ -58,26 +59,24 @@ class _MyFormState extends State<MyForm> {
           await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (returnedImage != null) {
-        var _cmpressed_image;
+        Uint8List? cmpressedImage;
         try {
-          _cmpressed_image = await FlutterImageCompress.compressWithFile(
+          cmpressedImage = await FlutterImageCompress.compressWithFile(
               returnedImage.path,
               format: CompressFormat.heic,
               quality: 70);
         } catch (e) {
-          _cmpressed_image = await FlutterImageCompress.compressWithFile(
+          cmpressedImage = await FlutterImageCompress.compressWithFile(
               returnedImage.path,
               format: CompressFormat.jpeg,
               quality: 70);
         }
         Map<String, dynamic> image = {
           "_id": returnedImage.path.split("/").last,
-          "data": base64Encode(_cmpressed_image)
+          "data": base64Encode(cmpressedImage!)
         };
 
         await bucket?.chunks.insert(image);
-        var img = await bucket?.chunks
-            .findOne({"_id": returnedImage.path.split("/").last});
         setState(() {
           _image = returnedImage.path.split("/").last;
           _selectedImage = File(returnedImage.path);
@@ -103,14 +102,15 @@ class _MyFormState extends State<MyForm> {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
                 TextFormField(
                   controller: _nameController,
-                  decoration: InputDecoration(labelText: "Nom d 'utilisateur"),
+                  decoration:
+                      const InputDecoration(labelText: "Nom d 'utilisateur"),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Veuillez entrer votre nom.';
@@ -120,7 +120,7 @@ class _MyFormState extends State<MyForm> {
                 ),
                 TextFormField(
                   controller: _mailController,
-                  decoration: InputDecoration(labelText: "Adresse mail"),
+                  decoration: const InputDecoration(labelText: "Adresse mail"),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Veuillez entrer votre mail.';
@@ -130,7 +130,7 @@ class _MyFormState extends State<MyForm> {
                 ),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: InputDecoration(labelText: "Mot de passe"),
+                  decoration: const InputDecoration(labelText: "Mot de passe"),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Veuillez entrer votre mot de passe.';
@@ -166,7 +166,7 @@ class _MyFormState extends State<MyForm> {
                       _submit();
                     }
                   },
-                  child: Text('Envoyer'),
+                  child: const Text('Envoyer'),
                 ),
               ],
             ),

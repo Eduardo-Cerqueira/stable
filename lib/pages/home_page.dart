@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.blue,
         actions: [
           IconButton(
-              onPressed: () => Get.to(() => MyForm()),
+              onPressed: () => Get.to(() => const MyForm()),
               icon: const Icon(Icons.navigate_next))
         ],
         leading: Builder(
@@ -81,19 +81,10 @@ class HomePage extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text("Details de l'utilisateur"),
-              onTap: () {
-                // Naviguez vers la page de programmation de cours
-                Get.to(const UserDetailsPage());
-              },
-            ),
+                title: const Text("Details de l'utilisateur"),
+                onTap: () => Get.to(const UserDetailsPage())),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: c.increment,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

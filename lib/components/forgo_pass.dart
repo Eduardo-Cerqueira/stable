@@ -67,7 +67,7 @@ class ForgoPassFormState extends State<ForgoPassForm> {
                     var user = dbUser;
                   if (emailController.text == dbUser && usernameController.text == user) {
                     // if ok then go to home page
-                    Get.to(ModifyPassPage());
+                    Get.to(const ModifyPassPage());
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

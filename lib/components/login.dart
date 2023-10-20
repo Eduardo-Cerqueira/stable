@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stable/DataBase/db_connection_v2.dart' as db;
-import 'dart:developer' as dev;
 
 import 'package:stable/pages/home_page.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
-    
 
   @override
   LoginFormState createState() {
@@ -20,7 +17,7 @@ class LoginFormState extends State<LoginForm> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -30,7 +27,7 @@ class LoginFormState extends State<LoginForm> {
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text('E-mail'),
-              ),
+          ),
           TextFormField(
             controller: emailController,
             decoration: const InputDecoration(
@@ -69,8 +66,7 @@ class LoginFormState extends State<LoginForm> {
             child: ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                    var dbUser = 'email'; //db.findUser(emailController.text);
-                    var user = dbUser;
+                  var dbUser = 'email'; //db.findUser(emailController.text);
                   if (emailController.text == dbUser) {
                     // if ok then go to home page
                     var password = 'password'; //user.password;
@@ -86,16 +82,14 @@ class LoginFormState extends State<LoginForm> {
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Invalid Credentials')
-                        ),
+                      const SnackBar(content: Text('Invalid Credentials')),
                     );
                   }
-                }else {
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Please fill input')),
                   );
-                } 
+                }
               },
               child: const Text('Submit'),
             ),

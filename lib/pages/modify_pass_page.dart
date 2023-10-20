@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:stable/components/modify_pass.dart';
 
 class ModifyPassPage extends StatelessWidget {
-  ModifyPassPage({Key? key}) : super(key: key);
+  const ModifyPassPage({Key? key}) : super(key: key);
   
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
