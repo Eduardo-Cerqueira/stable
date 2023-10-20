@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stable/models/horse.dart';
+import 'package:stable/pages/list_horse.dart';
+import 'package:stable/pages/user_horses_detail.dart';
 import 'package:stable/persistance/repository.dart';
 import 'package:stable/models/user.dart';
 
@@ -145,9 +148,10 @@ class UserDetailsPageState extends State<UserDetailsPage> {
                 children: [
                   TextButton(
                       child: const Text("I'am a half-boarder"),
-                      onPressed: () => ()),
+                      onPressed: () => (Get.to(const UserHorses()))),
                   TextButton(
-                      child: const Text("I'am a owner"), onPressed: () => ())
+                      child: const Text("I'am a owner"),
+                      onPressed: () => Get.to(const ListHorses()))
                 ]),
           ]))
         ],
@@ -175,6 +179,6 @@ class UserDetailsPageState extends State<UserDetailsPage> {
   Future<List<Horse>> listHorses() async =>
       await Collection.getHorseDocuments();
 
-  listUserHorses(User user) async =>
-      await Collection.getUserHorseDocuments(user);
+  listUserHalfBoarderHorses(User user) async =>
+      await Collection.getUserHalfBoarderHorse(user);
 }

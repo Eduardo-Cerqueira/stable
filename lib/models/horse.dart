@@ -24,7 +24,7 @@ class Horse {
   final String breed;
   final String stable;
   final String? specialty;
-  final String? owner;
+  final ObjectId? owner;
   final List<String>? halfBoarder;
 
   Map<String, dynamic> toJson() {
@@ -53,7 +53,7 @@ class Horse {
         coat: json['coat'],
         breed: json['breed'],
         specialty: json['specialty'],
-        owner: json['owner'],
+        owner: ObjectId.parse(json['owner']),
         halfBoarder: json['halfBoarder'],
         stable: json['stable']);
   }
