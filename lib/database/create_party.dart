@@ -11,7 +11,7 @@ class MongoDataBase {
   }
 
   static Future<void> insertEvent(String nomSoiree, String typeSoiree,
-      DateTime? selectedDate, String userID) async {
+      DateTime? selectedDate, ObjectId userID) async {
     var db = await Db.create(MONGO_URL);
     await db.open();
     inspect(db);
@@ -19,7 +19,7 @@ class MongoDataBase {
     var collection = db.collection('soirees_evenements');
     var userCollection = db.collection('users');
 
-    var user = await userCollection.findOne(where.id(ObjectId.parse(userID)));
+    var user = await userCollection.findOne(where.id(userID));
 
     if (user != null) {
       var userName = user['name'];
