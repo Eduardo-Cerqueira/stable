@@ -2,12 +2,11 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stable/models/horse.dart';
 import 'package:stable/models/stable.dart';
 import 'package:stable/models/user.dart';
-
-String MONGO_CONN_URL = "mongodb://flutter:1234@172.21.0.2:27017/";
+import 'package:stable/.env.dart';
 
 class Database {
   static dynamic getConnection() async {
-    var db = await Db.create(MONGO_CONN_URL);
+    var db = await Db.create(MONGO_URL);
     final connection = db.open();
     print("🖴 Connected to database !");
     return connection;
@@ -18,7 +17,7 @@ class Collection {
   static var db, userCollection, horseCollection, stableCollection;
 
   static connect() async {
-    db = await Db.create(MONGO_CONN_URL);
+    db = await Db.create(MONGO_URL);
     await db.open();
     print("🖴 Connected to database !");
     userCollection = db.collection("user");

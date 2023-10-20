@@ -6,7 +6,6 @@ import 'package:stable/models/horse.dart';
 import 'package:stable/models/user.dart';
 import 'package:stable/pages/user_details_page.dart';
 import 'package:stable/persistance/repository.dart';
-import 'package:niku/namespace.dart' as n;
 
 class ListHorses extends StatefulWidget {
   final String? stableId;
@@ -57,30 +56,31 @@ class ListHorsesState extends State<ListHorses> {
               onPressed: () => Get.to(() => const UserDetailsPage()),
               icon: const Icon(Icons.navigate_next)),
         ),
-        body: n.Column([
+        body: Column(children: [
           Expanded(
-            child: n.ListView.builder(itemBuilder: (context, index) {
-              return Card(
-                  child: n.Column([
-                n.ListTile()
-                  ..tileColor = horsesList[index].owner != null &&
-                          horsesList[index].owner == user.id
-                      ? Colors.amber[50]
-                      : Colors.white
-                  ..leading = Image.memory(
-                      const Base64Decoder().convert(horsesList[index].picture))
-                  ..title = Text(horsesList[index].name)
-                  ..subtitle = Text(horsesList[index].sex)
-                  ..onTap = () {
-                    if (horses.isEmpty ||
-                        !horses.contains(horsesList[index].id)) {
-                      return horses.add(horsesList[index].id);
-                    }
-                  },
-              ]));
-            })
-              ..itemCount = horsesList.length,
-          )
+              child: ListView.builder(
+                  itemCount: horsesList.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                        child: Column(children: [
+                      ListTile(
+                        title: Text(horsesList[index].name),
+                        subtitle: Text(horsesList[index].sex),
+                        tileColor: horsesList[index].owner != null &&
+                                horsesList[index].owner == user.id
+                            ? Colors.amber[50]
+                            : Colors.white,
+                        leading: Image.memory(const Base64Decoder()
+                            .convert(horsesList[index].picture)),
+                        onTap: () {
+                          if (horses.isEmpty ||
+                              !horses.contains(horsesList[index].id)) {
+                            return horses.add(horsesList[index].id);
+                          }
+                        },
+                      )
+                    ]));
+                  }))
         ]),
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.save),

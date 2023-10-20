@@ -3,9 +3,9 @@ import 'package:stable/database/list_party_database.dart';
 import 'package:stable/database/party_actions.dart';
 
 class ListeSoireesPage extends StatefulWidget {
-  final String userID;
+  final dynamic user;
 
-  const ListeSoireesPage({Key? key, required this.userID}) : super(key: key);
+  const ListeSoireesPage({Key? key, required this.user}) : super(key: key);
   @override
   _ListeSoireesPageState createState() => _ListeSoireesPageState();
 }
@@ -54,7 +54,7 @@ class _ListeSoireesPageState extends State<ListeSoireesPage> {
               onPressed: () {
                 selectedSoireeIndex = soirees
                     .indexWhere((soiree) => soiree['name'] == soireeName);
-                _addPartyItem(widget.userID);
+                _addPartyItem(widget.user["_id"]);
                 Navigator.of(context).pop();
               },
               child: const Text('Valider'),

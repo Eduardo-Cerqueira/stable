@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:stable/pages/home_page.dart';
 
 class PartyPage extends StatefulWidget {
-  final String userID;
+  final dynamic user;
 
-  const PartyPage({Key? key, required this.userID}) : super(key: key);
+  const PartyPage({Key? key, required this.user}) : super(key: key);
 
   @override
   _PartyPageState createState() => _PartyPageState();
@@ -50,8 +50,8 @@ class _PartyPageState extends State<PartyPage> {
       print(nomSoireeController.text);
       print(selectedDate);
 
-      MongoDataBase.insertEvent(
-          nomSoireeController.text, typeSoiree, selectedDate, widget.userID);
+      MongoDataBase.insertEvent(nomSoireeController.text, typeSoiree,
+          selectedDate, widget.user["_id"]);
     }
   }
 

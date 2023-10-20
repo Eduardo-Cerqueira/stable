@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:mongo_dart/mongo_dart.dart' as mdb;
+import 'package:stable/.env.dart';
 import 'package:stable/pages/home_page.dart';
 
 class LoginForm extends StatefulWidget {
@@ -14,9 +15,31 @@ class LoginForm extends StatefulWidget {
 
 class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  var user;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  _fetchUserByEmail() async {
+    var db = mdb.Db(MONGO_URL);
+    await db.open();
+
+    var collection = db.collection('users');
+    var userData =
+        await collection.findOne(mdb.where.eq("email", emailController.text));
+    print(userData);
+
+    setState(() {
+      user = userData;
+    });
+
+    await db.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,35 +87,26 @@ class LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  var dbUser = 'email'; //db.findUser(emailController.text);
-                  if (emailController.text == dbUser) {
-                    // if ok then go to home page
-                    var password = 'password'; //user.password;
-                    if (passwordController.text == password) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Success')),
-                      );
-                      Get.to(const HomePage());
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Invalid Credentials')),
-                      );
+                child: const Text('Submit'),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    await _fetchUserByEmail();
+                    if (user != null) {
+                      if (emailController.text == user["email"]) {
+                        // if ok then go to home page
+                        if (passwordController.text != user["password"]) {
+                          Get.snackbar('Error', 'Invalid Credentials',
+                              backgroundColor: Colors.red[300]);
+                        }
+                        Get.to(HomePage(user: user));
+                      }
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Invalid Credentials')),
+                      const SnackBar(content: Text('Please fill input')),
                     );
                   }
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Please fill input')),
-                  );
-                }
-              },
-              child: const Text('Submit'),
-            ),
+                }),
           ),
         ],
       ),

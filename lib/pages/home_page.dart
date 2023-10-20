@@ -17,11 +17,11 @@ class Controller extends GetxController {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final dynamic user;
+  const HomePage({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.put(Controller());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Obx(() => Text("${c.count}")),
+      body: Obx(() => Text("${user["name"]}")),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
@@ -71,13 +71,13 @@ class HomePage extends StatelessWidget {
             ListTile(
               title: const Text('Organiser une soirée'),
               onTap: () {
-                Get.to(() => PartyPage(userID: c.getUserId()));
+                Get.to(() => PartyPage(user: user));
               },
             ),
             ListTile(
               title: const Text('Liste des soirées'),
               onTap: () {
-                Get.to(() => ListeSoireesPage(userID: c.getUserId()));
+                Get.to(() => ListeSoireesPage(user: user));
               },
             ),
             ListTile(
