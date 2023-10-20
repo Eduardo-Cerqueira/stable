@@ -20,7 +20,7 @@ class _MyFormState extends State<MyForm> {
   bool isManager = false;
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -44,12 +44,12 @@ class _MyFormState extends State<MyForm> {
 
   void _submit() async {
     if (_db != null) {
-      final String name = _nameController.text;
+      final String username = _usernameController.text;
       final String mail = _mailController.text;
       final String password = _passwordController.text;
 
       insertUser(_db, {
-        "name": name,
+        "username": username,
         "mail": mail,
         "password": password,
         "image": _image,
@@ -116,7 +116,7 @@ class _MyFormState extends State<MyForm> {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  controller: _nameController,
+                  controller: _usernameController,
                   decoration:
                       const InputDecoration(labelText: "Nom d 'utilisateur"),
                   validator: (value) {

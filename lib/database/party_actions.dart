@@ -17,16 +17,16 @@ class PartyActions {
       List<dynamic> items = party['items'] ?? <dynamic>[];
 
       if (user != null) {
-        String userName = user['name'];
+        String userName = user['username'];
         Map<String, dynamic> itemToAdd = {
-          'name': userName,
+          'username': userName,
           'item': itemToBring,
         };
 
         // Recherchez si l'utilisateur a déjà ajouté un item et mettez à jour ou ajoutez l'entrée
         bool userAlreadyAddedItem = false;
         for (int i = 0; i < items.length; i++) {
-          if (items[i] is Map && items[i]['name'] == userName) {
+          if (items[i] is Map && items[i]['username'] == userName) {
             // Remplacez l'entrée existante avec la nouvelle valeur
             items[i] = itemToAdd;
             userAlreadyAddedItem = true;

@@ -22,7 +22,7 @@ class MongoDataBase {
     var user = await userCollection.findOne(where.id(ObjectId.parse(userID)));
 
     if (user != null) {
-      var userName = user['name'];
+      var userName = user['username'];
       var event = {
         'createur': userName,
         'name': nomSoiree,
