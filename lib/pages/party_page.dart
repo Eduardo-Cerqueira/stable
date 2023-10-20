@@ -64,8 +64,8 @@ class _PartyPageState extends State<PartyPage> {
             title: const Text('Party Page'),
             backgroundColor: Colors.blue,
             leading: IconButton(
-                onPressed: () => Get.to(() => const HomePage()),
-                icon: const Icon(Icons.navigate_next))),
+                onPressed: () => Get.to(() => HomePage(user: widget.user)),
+                icon: const Icon(Icons.arrow_back))),
         body: Center(
           child: Form(
             key: _formKey,
@@ -141,7 +141,7 @@ class _PartyPageState extends State<PartyPage> {
                 ElevatedButton(
                   onPressed: () {
                     _submitForm();
-                    Get.to(const HomePage());
+                    Get.to(() => HomePage(user: widget.user));
                   },
                   child: const Text('Créer la soirée'),
                 ),

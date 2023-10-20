@@ -7,8 +7,9 @@ import 'package:stable/pages/user_details_page.dart';
 import 'package:stable/persistance/repository.dart';
 
 class UserHorses extends StatefulWidget {
+  final dynamic user;
   final String? stableId;
-  const UserHorses({super.key, this.stableId});
+  const UserHorses({super.key, this.stableId, required this.user});
 
   @override
   UserHorsesState createState() => UserHorsesState();
@@ -53,8 +54,8 @@ class UserHorsesState extends State<UserHorses> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         leading: IconButton(
-            onPressed: () => Get.to(() => const UserDetailsPage()),
-            icon: const Icon(Icons.navigate_next)),
+            onPressed: () => Get.to(() => UserDetailsPage(user: user)),
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: Column(children: [
         Expanded(

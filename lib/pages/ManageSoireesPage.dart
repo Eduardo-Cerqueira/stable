@@ -3,7 +3,8 @@ import 'package:stable/.env.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mdb;
 
 class ManageSoireesPage extends StatefulWidget {
-  const ManageSoireesPage({Key? key}) : super(key: key);
+  final dynamic user;
+  const ManageSoireesPage({super.key, required this.user});
 
   @override
   _ManageSoireesPageState createState() => _ManageSoireesPageState();

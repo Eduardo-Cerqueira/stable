@@ -2,35 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stable/pages/add_horse.dart';
 import 'package:stable/pages/list_horse_page.dart';
-import 'package:stable/pages/profile.dart';
+import 'package:stable/pages/login_page.dart';
 import 'package:stable/pages/user_details_page.dart';
 import 'program_cours_page.dart';
 import 'ManageCoursesPage.dart';
 import 'ManageSoireesPage.dart';
 import 'package:stable/pages/party_page.dart';
 import 'package:stable/pages/party_list_page.dart';
-import 'package:mongo_dart/mongo_dart.dart' as mdb;
-
-class Controller extends GetxController {
-  var count = 0.obs;
-  increment() => count++;
-  String getUserId() {
-    return "65318bc3756ac26b2f770d8a";
-  }
-}
-
-class User {
-  final String id;
-  final String name;
-  final String role;
-
-  User({required this.id, required this.name, required this.role});
-}
 
 class HomePage extends StatelessWidget {
   final dynamic user;
 
-  const HomePage({super.key, this.user});
+  const HomePage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +24,10 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.blue,
         actions: [
           IconButton(
-              onPressed: () => Get.to(() => const MyForm()),
-              icon: const Icon(Icons.navigate_next)),
+            onPressed: () => Get.to(const LoginPage()),
+            icon: const Icon(Icons.logout),
+            color: Colors.red,
+          ),
         ],
         leading: Builder(
           builder: (context) => IconButton(
@@ -65,7 +50,7 @@ class HomePage extends StatelessWidget {
               title: const Text('Programmer un cours'),
               onTap: () {
                 // Naviguez vers la page de programmation de cours
-                Get.to(const CourseForm());
+                Get.to(() => CourseForm(user: user));
               },
             ),
             if (isManager) // Si l'utilisateur est un gérant, montrez-lui les options de gestion
@@ -73,13 +58,13 @@ class HomePage extends StatelessWidget {
               ListTile(
                 title: const Text('Gérer les cours'),
                 onTap: () {
-                  Get.to(const ManageCoursesPage());
+                  Get.to(() => ManageCoursesPage(user: user));
                 },
               ),
               ListTile(
                 title: const Text('Gérer les soirées'),
                 onTap: () {
-                  Get.to(() => const ManageSoireesPage());
+                  Get.to(() => ManageSoireesPage(user: user));
                 },
               ),
             ],
@@ -101,7 +86,7 @@ class HomePage extends StatelessWidget {
                 onTap: () => Get.to(ListHorsesPage(user: user))),
             ListTile(
                 title: const Text("Details de l'utilisateur"),
-                onTap: () => Get.to(const UserDetailsPage()))
+                onTap: () => Get.to(UserDetailsPage(user: user)))
           ],
         ),
       ),

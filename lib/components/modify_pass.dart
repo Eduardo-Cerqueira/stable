@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:stable/pages/login_page.dart';
 
 class ModifyPassForm extends StatefulWidget {
-  const ModifyPassForm({super.key});
+  final dynamic user;
+  const ModifyPassForm({super.key, this.user});
 
   @override
   ModifyPassFormState createState() {
@@ -71,7 +72,7 @@ class ModifyPassFormState extends State<ModifyPassForm> {
                       confirmePasswordController.text) {
                     try {
                       //db insert new password
-                      Get.to(LoginPage());
+                      Get.to(() => const LoginPage());
                     } catch (e) {
                       // ignore: avoid_print
                       print(e);

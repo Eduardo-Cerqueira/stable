@@ -21,7 +21,8 @@ class CourseCriteria {
 }
 
 class CourseForm extends StatefulWidget {
-  const CourseForm({Key? key}) : super(key: key);
+  final dynamic user;
+  const CourseForm({super.key, required this.user});
 
   @override
   _CourseFormState createState() => _CourseFormState();

@@ -64,7 +64,7 @@ class AddHorseState extends State<AddHorse> {
           backgroundColor: Colors.blue,
           leading: IconButton(
               onPressed: () => Get.to(() => HomePage(user: widget.user)),
-              icon: const Icon(Icons.navigate_next))),
+              icon: const Icon(Icons.arrow_back))),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

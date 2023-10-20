@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:stable/pages/login_page.dart';
 
 class LogoutButton extends StatefulWidget {
-  const LogoutButton({super.key});
+  final dynamic user;
+  const LogoutButton({super.key, required this.user});
 
   @override
   LogoutFormState createState() {
@@ -19,7 +20,7 @@ class LogoutFormState extends State<LogoutButton> {
         child: const Text('Logout'),
         onPressed: () {
           // db.close(),
-          Get.to(const LoginPage());
+          Get.to(() => const LoginPage());
         },
       ),
     );

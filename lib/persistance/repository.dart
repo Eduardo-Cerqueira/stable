@@ -39,11 +39,11 @@ class Collection {
     await userCollection.insertAll([user.toJson()]);
   }
 
-  static updateField(User user, String field, String value) async {
-    var userToSave = await userCollection.findOne({"_id": user.id});
+  static updateField(ObjectId userId, String field, String value) async {
+    var userToSave = await userCollection.findOne({"_id": userId});
     userToSave[field] = value;
     await userCollection.updateOne(
-        where.eq("_id", user.id), modify.set(field, value));
+        where.eq("_id", userId), modify.set(field, value));
   }
 
   static delete(User user) async {

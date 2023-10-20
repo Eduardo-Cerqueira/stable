@@ -3,7 +3,8 @@ import 'package:mongo_dart/mongo_dart.dart' as mdb;
 import 'package:stable/.env.dart';
 
 class ManageCoursesPage extends StatefulWidget {
-  const ManageCoursesPage({super.key});
+  final dynamic user;
+  const ManageCoursesPage({super.key, required this.user});
 
   @override
   _ManageCoursesPageState createState() => _ManageCoursesPageState();

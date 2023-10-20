@@ -1,14 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stable/pages/home_page.dart' as HomePage;
+import 'package:stable/pages/home_page.dart';
 import 'package:stable/pages/list_horse_page.dart';
 import 'package:stable/pages/user_horses_detail.dart';
 import 'package:stable/persistance/repository.dart';
-import 'package:stable/models/user.dart';
 
 class UserDetailsPage extends StatefulWidget {
-  const UserDetailsPage({super.key});
+  final dynamic user;
+  const UserDetailsPage({super.key, required this.user});
 
   @override
   UserDetailsPageState createState() => UserDetailsPageState();
@@ -33,33 +32,27 @@ class UserDetailsPageState extends State<UserDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    const String userData = '''{
-      "_id": "65314582cb18c29ab0d68b26",
-      "profilePicture":
-          "",
-      "username": "",
-      "password": "",
-      "email": ""
-    }''';
+    if (widget.user != null) {
+      if (widget.user["username"] != null) {
+        usernameController.text = widget.user["username"];
+      }
 
-    final User user = User.fromJson(jsonDecode(userData));
+      if (widget.user["phoneNumber"] != null) {
+        phoneNumberController.text = widget.user["phoneNumber"];
+      }
+      if (widget.user["age"] != null) ageController.text = widget.user["age"];
 
-    usernameController.text = user.username;
-    if (user.phoneNumber != null) {
-      phoneNumberController.text = user.phoneNumber.toString();
-    }
-    if (user.age != null) ageController.text = user.age.toString();
-
-    if (user.ffeLink != null) {
-      ffeLinkController.text = user.ffeLink.toString();
+      if (widget.user["ffeLink"] != null) {
+        ffeLinkController.text = widget.user["ffeLink"];
+      }
     }
 
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.blue,
           leading: IconButton(
-              onPressed: () => Get.to(() => const HomePage.HomePage()),
-              icon: const Icon(Icons.navigate_next))),
+              onPressed: () => Get.to(() => HomePage(user: widget.user)),
+              icon: const Icon(Icons.arrow_back))),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -78,7 +71,7 @@ class UserDetailsPageState extends State<UserDetailsPage> {
                 child: ElevatedButton(
                   child: const Icon(Icons.update),
                   onPressed: () {
-                    updateUsername(user);
+                    updateUsername(widget.user["_id"]);
                   },
                 ),
               ),
@@ -95,11 +88,12 @@ class UserDetailsPageState extends State<UserDetailsPage> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 4.0),
                 child: ElevatedButton(
-                  child: user.phoneNumber == null
-                      ? const Icon(Icons.create)
-                      : const Icon(Icons.update),
+                  child:
+                      widget.user != null && widget.user["phoneNumber"] == null
+                          ? const Icon(Icons.create)
+                          : const Icon(Icons.update),
                   onPressed: () {
-                    updatePhoneNumber(user);
+                    updatePhoneNumber(widget.user["phoneNumber"]);
                   },
                 ),
               ),
@@ -116,11 +110,11 @@ class UserDetailsPageState extends State<UserDetailsPage> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 4.0),
                 child: ElevatedButton(
-                  child: user.age == null
+                  child: widget.user != null && widget.user["age"] == null
                       ? const Icon(Icons.create)
                       : const Icon(Icons.update),
                   onPressed: () {
-                    updateAge(user);
+                    updateAge(widget.user["_id"]);
                   },
                 ),
               ),
@@ -137,11 +131,11 @@ class UserDetailsPageState extends State<UserDetailsPage> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 4.0),
                 child: ElevatedButton(
-                  child: user.ffeLink == null
+                  child: widget.user != null && widget.user["ffeLink"] == null
                       ? const Icon(Icons.create)
                       : const Icon(Icons.update),
                   onPressed: () {
-                    updateFFELink(user);
+                    updateFFELink(widget.user["_id"]);
                   },
                 ),
               ),
@@ -153,11 +147,12 @@ class UserDetailsPageState extends State<UserDetailsPage> {
                 children: [
                   TextButton(
                       child: const Text("I'am a half-boarder"),
-                      onPressed: () => (Get.to(const UserHorses()))),
+                      onPressed: () =>
+                          Get.to(() => UserHorses(user: widget.user))),
                   TextButton(
                       child: const Text("I'am a owner"),
                       onPressed: () => Get.to(ListHorsesPage(
-                            user: user,
+                            user: widget.user,
                           )))
                 ]),
           ]))
@@ -166,25 +161,25 @@ class UserDetailsPageState extends State<UserDetailsPage> {
     );
   }
 
-  updateUsername(User user) async {
-    await Collection.updateField(user, "username", usernameController.text);
+  updateUsername(userId) async {
+    await Collection.updateField(userId, "username", usernameController.text);
   }
 
-  updateAge(User user) async {
+  updateAge(user) async {
     await Collection.updateField(user, "age", ageController.text);
   }
 
-  updatePhoneNumber(User user) async {
+  updatePhoneNumber(userId) async {
     await Collection.updateField(
-        user, "phoneNumber", phoneNumberController.text);
+        userId, "phoneNumber", phoneNumberController.text);
   }
 
-  updateFFELink(User user) async {
+  updateFFELink(user) async {
     await Collection.updateField(user, "ffeLink", ffeLinkController.text);
   }
 
   listHorses() async => await Collection.getHorseDocuments();
 
-  listUserHalfBoarderHorses(User user) async =>
+  listUserHalfBoarderHorses(user) async =>
       await Collection.getUserHalfBoarderHorse(user);
 }

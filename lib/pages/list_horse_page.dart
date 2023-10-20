@@ -38,8 +38,8 @@ class ListHorsesPageState extends State<ListHorsesPage> {
         appBar: AppBar(
           backgroundColor: Colors.blue,
           leading: IconButton(
-              onPressed: () => Get.to(() => const UserDetailsPage()),
-              icon: const Icon(Icons.navigate_next)),
+              onPressed: () => Get.to(() => UserDetailsPage(user: widget.user)),
+              icon: const Icon(Icons.arrow_back)),
         ),
         body: Column(children: [
           Expanded(

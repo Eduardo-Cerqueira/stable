@@ -97,8 +97,9 @@ class LoginFormState extends State<LoginForm> {
                         if (passwordController.text != user["password"]) {
                           Get.snackbar('Error', 'Invalid Credentials',
                               backgroundColor: Colors.red[300]);
+                        } else {
+                          Get.to(() => HomePage(user: user));
                         }
-                        Get.to(() => HomePage(user: user));
                       }
                     }
                   } else {

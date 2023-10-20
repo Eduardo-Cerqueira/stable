@@ -13,8 +13,8 @@ void main() async {
   if (isConnected) {
     await MongoDatabase
         .listCollections(); // Ajoutez cette ligne pour lister les collections
-    runApp(const GetMaterialApp(
-        debugShowCheckedModeBanner: false, home: LoginPage()));
+    runApp(
+        GetMaterialApp(debugShowCheckedModeBanner: false, home: LoginPage()));
   } else {
     if (kDebugMode) {
       print("Failed to connect to MongoDB");

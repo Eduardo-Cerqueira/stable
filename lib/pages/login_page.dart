@@ -13,6 +13,7 @@ class LoginPage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.blue,
             title: const Text('Login'),
           ),
@@ -25,7 +26,7 @@ class LoginPage extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               try {
-                Get.to(const ForgoPassPage());
+                Get.to(() => const ForgoPassPage());
               } catch (e) {
                 if (kDebugMode) {
                   print(e);

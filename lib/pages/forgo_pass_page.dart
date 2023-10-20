@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:stable/components/forgo_pass.dart';
 
 class ForgoPassPage extends StatelessWidget {
-  const ForgoPassPage({Key? key}) : super(key: key);
+  const ForgoPassPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class ForgoPassPage extends StatelessWidget {
             title: const Text('Forgot Password'),
             leading: IconButton(
                 onPressed: () => Get.back(),
-                icon: const Icon(Icons.navigate_next)),
+                icon: const Icon(Icons.arrow_back)),
           ),
           body: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
