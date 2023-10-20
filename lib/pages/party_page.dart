@@ -141,7 +141,7 @@ class PartyPageState extends State<PartyPage> {
                 ElevatedButton(
                   onPressed: () {
                     _submitForm();
-                    Get.to(const HomePage());
+                    Get.to(HomePage(user: widget.user));
                   },
                   child: const Text('Créer la soirée'),
                 ),
