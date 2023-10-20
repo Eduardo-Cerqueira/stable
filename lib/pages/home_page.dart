@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.blue,
         actions: [
           IconButton(
-              onPressed: () => Get.to(() => MyForm()),
+              onPressed: () => Get.to(() => const MyForm()),
               icon: const Icon(Icons.navigate_next))
         ],
         leading: Builder(

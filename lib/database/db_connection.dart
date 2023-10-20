@@ -9,7 +9,7 @@ const databaseName = "flutterecurie";
 void main() async {
   dev.log('test');
   var db = await DbConnection._(mongoUrl, '27017', databaseName).db;
-  await db.isConnected;
+  db.isConnected;
   var coll = db.collection('users');
   await coll.insertOne({
     'profile_picture': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
@@ -61,7 +61,7 @@ class DbConnection {
             dev.log('Attempt "$retry" failed');
             await Future.delayed(Duration(milliseconds: 100 * retry));
           } else {
-            throw e;
+            rethrow;
           }
         }
       }

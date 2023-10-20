@@ -63,7 +63,7 @@ class _PartyPageState extends State<PartyPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Party Page'),
+          title: const Text('Party Page'),
         ),
         body: Center(
           child: Form(
@@ -73,7 +73,7 @@ class _PartyPageState extends State<PartyPage> {
               children: [
                 TextFormField(
                   controller: nomSoireeController,
-                  decoration: InputDecoration(labelText: 'Nom de la soirée'),
+                  decoration: const InputDecoration(labelText: 'Nom de la soirée'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Veuillez entrer un nom de soirée';
@@ -81,7 +81,7 @@ class _PartyPageState extends State<PartyPage> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -100,10 +100,10 @@ class _PartyPageState extends State<PartyPage> {
                             Image.asset('assets/apero.jpeg', width: 30, height: 30), 
                           ],
                         ),
-                        Text('Apéro', style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text('Apéro', style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Column(
                       children: [
                         Row(
@@ -119,25 +119,25 @@ class _PartyPageState extends State<PartyPage> {
                             Image.asset('assets/repas.jpeg', width: 30, height: 30), 
                           ],
                         ),
-                        Text('Repas', style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text('Repas', style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     _selectDate(context);
                   },
-                  child: Text('Choisir la date de la soirée'),
+                  child: const Text('Choisir la date de la soirée'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     _submitForm();
-                    Get.to(HomePage());
+                    Get.to(const HomePage());
                   },
-                  child: Text('Créer la soirée'),
+                  child: const Text('Créer la soirée'),
                 ),
                 
               ],

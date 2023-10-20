@@ -5,7 +5,7 @@ import 'package:stable/database/party_actions.dart';
 class ListeSoireesPage extends StatefulWidget {
   final String userID;
 
-  ListeSoireesPage({Key? key, required this.userID}) : super(key: key);
+  const ListeSoireesPage({Key? key, required this.userID}) : super(key: key);
   @override
   _ListeSoireesPageState createState() => _ListeSoireesPageState();
 }
@@ -37,17 +37,17 @@ class _ListeSoireesPageState extends State<ListeSoireesPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('Voulez-vous participer à cette soirée ?'),
+              const Text('Voulez-vous participer à cette soirée ?'),
               TextFormField(
                 controller: itemToBringController,
-                decoration: InputDecoration(labelText: 'Apportez quelque chose'),
+                decoration: const InputDecoration(labelText: 'Apportez quelque chose'),
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Annuler'),
+              child: const Text('Annuler'),
             ),
             TextButton(
               onPressed: () {
@@ -55,7 +55,7 @@ class _ListeSoireesPageState extends State<ListeSoireesPage> {
                 _addPartyItem(widget.userID);
                 Navigator.of(context).pop();
               },
-              child: Text('Valider'),
+              child: const Text('Valider'),
             ),
           ],
         );
@@ -78,7 +78,7 @@ class _ListeSoireesPageState extends State<ListeSoireesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Liste des Soirées'),
+        title: const Text('Liste des Soirées'),
       ),
       body: Column(
         children: [

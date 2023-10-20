@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:stable/components/login.dart';
 import 'package:stable/components/forgo_pass.dart';
 
 class ForgoPassPage extends StatelessWidget {
@@ -11,17 +9,16 @@ class ForgoPassPage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title: const Text('Forgot Password'),
+          appBar: AppBar(
+            backgroundColor: Colors.blue,
+            title: const Text('Forgot Password'),
           ),
           body: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ForgoPassForm(),
             ],
-          )
-      ),
+          )),
     );
   }
 }
