@@ -47,13 +47,14 @@ class _MyFormState extends State<MyForm> {
       final String name = _nameController.text;
       final String mail = _mailController.text;
       final String password = _passwordController.text;
-      
-      insertUsers(_db, {
+
+      insertUser(_db, {
         "name": name,
         "mail": mail,
         "password": password,
         "image": _image,
-        "isManager": isManager // Ajouter le statut de gérant à la base de données.
+        "isManager":
+            isManager // Ajouter le statut de gérant à la base de données.
       });
     } else {
       print("noDB");
@@ -145,7 +146,8 @@ class _MyFormState extends State<MyForm> {
                     return null;
                   },
                 ),
-                SwitchListTile(  // Ajouter un switch pour définir le rôle de l'utilisateur.
+                SwitchListTile(
+                  // Ajouter un switch pour définir le rôle de l'utilisateur.
                   title: const Text('Est un gérant?'),
                   value: isManager,
                   onChanged: (bool value) {

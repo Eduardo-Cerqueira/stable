@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stable/pages/add_horse.dart';
-import 'package:stable/pages/owner_choose_list_horse.dart';
+import 'package:stable/pages/list_horse_page.dart';
 import 'package:stable/pages/profile.dart';
 import 'package:stable/pages/user_details_page.dart';
-import '../.env.dart';
 import 'program_cours_page.dart';
 import 'ManageCoursesPage.dart';
 import 'ManageSoireesPage.dart';
@@ -19,6 +18,7 @@ class Controller extends GetxController {
     return "65318bc3756ac26b2f770d8a";
   }
 }
+
 class User {
   final String id;
   final String name;
@@ -42,8 +42,7 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () => Get.to(() => const MyForm()),
-              icon: const Icon(Icons.navigate_next)
-          ),
+              icon: const Icon(Icons.navigate_next)),
         ],
         leading: Builder(
           builder: (context) => IconButton(
@@ -69,21 +68,21 @@ class HomePage extends StatelessWidget {
                 Get.to(const CourseForm());
               },
             ),
-            if(isManager) // Si l'utilisateur est un gérant, montrez-lui les options de gestion
+            if (isManager) // Si l'utilisateur est un gérant, montrez-lui les options de gestion
               ...[
-                ListTile(
-                  title: const Text('Gérer les cours'),
-                  onTap: () {
-                    Get.to(const ManageCoursesPage());
-                  },
-                ),
-                ListTile(
-                  title: const Text('Gérer les soirées'),
-                  onTap: () {
-                    Get.to(() => const ManageSoireesPage());
-                  },
-                ),
-              ],
+              ListTile(
+                title: const Text('Gérer les cours'),
+                onTap: () {
+                  Get.to(const ManageCoursesPage());
+                },
+              ),
+              ListTile(
+                title: const Text('Gérer les soirées'),
+                onTap: () {
+                  Get.to(() => const ManageSoireesPage());
+                },
+              ),
+            ],
             ListTile(
               title: const Text('Organiser une soirée'),
               onTap: () {
@@ -95,14 +94,14 @@ class HomePage extends StatelessWidget {
               onTap: () => Get.to(() => ListeSoireesPage(user: user)),
             ),
             ListTile(
-                title: const Text("Details de l'utilisateur"),
-                onTap: () => Get.to(const UserDetailsPage())),
-            ListTile(
                 title: const Text("Ajouter un cheval"),
                 onTap: () => Get.to(AddHorse(user: user))),
             ListTile(
                 title: const Text("Liste des chevaux"),
-                onTap: () => Get.to(ListHorsesPage(user: user)))
+                onTap: () => Get.to(ListHorsesPage(user: user))),
+            ListTile(
+                title: const Text("Details de l'utilisateur"),
+                onTap: () => Get.to(const UserDetailsPage()))
           ],
         ),
       ),

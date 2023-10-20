@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stable/database.dart';
 import 'package:stable/pages/home_page.dart';
-import 'package:stable/pages/owner_choose_list_horse.dart';
+import 'package:stable/pages/list_horse_page.dart';
 
 class AddHorse extends StatefulWidget {
   final dynamic user;
