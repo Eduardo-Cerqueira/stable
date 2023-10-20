@@ -8,14 +8,6 @@ import 'ManageSoireesPage.dart';
 import 'package:stable/pages/party_page.dart';
 import 'package:stable/pages/party_list_page.dart';
 
-class Controller extends GetxController {
-  var count = 0.obs;
-  increment() => count++;
-  String getUserId() {
-    return "65318bc3756ac26b2f770d8a";
-  }
-}
-
 class HomePage extends StatelessWidget {
   final dynamic user;
   const HomePage({super.key, this.user});
@@ -37,7 +29,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Obx(() => Text("${user["name"]}")),
+      body: Text("${user["name"]}"),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
