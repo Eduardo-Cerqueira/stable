@@ -46,6 +46,4 @@ app.*.map.json
 # Environment variables
 **/*.env
 env.dart
-
-/lib/constant.dart
-/lib/database/constant.dart
+lib/.env.dart

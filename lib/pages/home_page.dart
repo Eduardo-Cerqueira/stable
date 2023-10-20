@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stable/pages/profile.dart';
+import 'package:stable/pages/user_details_page.dart';
 import 'program_cours_page.dart';
 import 'ManageCoursesPage.dart';
 import 'ManageSoireesPage.dart';
 import 'package:stable/pages/party_page.dart';
 import 'package:stable/pages/party_list_page.dart';
-
 
 class Controller extends GetxController {
   var count = 0.obs;
@@ -27,8 +27,8 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.blue,
         actions: [
           IconButton(
-            onPressed: () => Get.to(() => MyForm()),
-            icon: const Icon(Icons.navigate_next))
+              onPressed: () => Get.to(() => MyForm()),
+              icon: const Icon(Icons.navigate_next))
         ],
         leading: Builder(
           builder: (context) => IconButton(
@@ -37,7 +37,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      
       body: Obx(() => Text("${c.count}")),
       drawer: Drawer(
         child: ListView(
@@ -81,6 +80,13 @@ class HomePage extends StatelessWidget {
                 Get.to(() => ListeSoireesPage(userID: c.getUserId()));
               },
             ),
+            ListTile(
+              title: const Text("Details de l'utilisateur"),
+              onTap: () {
+                // Naviguez vers la page de programmation de cours
+                Get.to(const UserDetailsPage());
+              },
+            ),
           ],
         ),
       ),
@@ -89,8 +95,6 @@ class HomePage extends StatelessWidget {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
-      
     );
-    
   }
 }
