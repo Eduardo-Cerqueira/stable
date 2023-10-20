@@ -6,7 +6,7 @@ import 'package:stable/pages/home_page.dart';
 class PartyPage extends StatefulWidget {
   final dynamic user;
 
-  const PartyPage({Key? key, required this.user}) : super(key: key);
+  const PartyPage({super.key, required this.user});
 
   @override
   PartyPageState createState() => PartyPageState();
