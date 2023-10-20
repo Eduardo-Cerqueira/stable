@@ -12,7 +12,7 @@ class ListeSoireesPage extends StatefulWidget {
 
 class _ListeSoireesPageState extends State<ListeSoireesPage> {
   List soirees = [];
-  int selectedSoireeIndex = -1; 
+  int selectedSoireeIndex = -1;
   final TextEditingController itemToBringController = TextEditingController();
 
   @override
@@ -40,7 +40,8 @@ class _ListeSoireesPageState extends State<ListeSoireesPage> {
               const Text('Voulez-vous participer à cette soirée ?'),
               TextFormField(
                 controller: itemToBringController,
-                decoration: const InputDecoration(labelText: 'Apportez quelque chose'),
+                decoration:
+                    const InputDecoration(labelText: 'Apportez quelque chose'),
               ),
             ],
           ),
@@ -51,7 +52,8 @@ class _ListeSoireesPageState extends State<ListeSoireesPage> {
             ),
             TextButton(
               onPressed: () {
-                selectedSoireeIndex = soirees.indexWhere((soiree) => soiree['name'] == soireeName);
+                selectedSoireeIndex = soirees
+                    .indexWhere((soiree) => soiree['name'] == soireeName);
                 _addPartyItem(widget.userID);
                 Navigator.of(context).pop();
               },
@@ -64,15 +66,15 @@ class _ListeSoireesPageState extends State<ListeSoireesPage> {
   }
 
   void _addPartyItem(String userID) async {
-  final itemToBring = itemToBringController.text;
-  if (itemToBring.isNotEmpty && selectedSoireeIndex >= 0) {
-    await PartyActions.bringItemToParty(soirees[selectedSoireeIndex]['name'], itemToBring, userID);
-    itemToBringController.clear();
-    // Rafraîchissez la liste des soirées après avoir ajouté l'élément.
-    await fetchSoireesFromDatabase();
+    final itemToBring = itemToBringController.text;
+    if (itemToBring.isNotEmpty && selectedSoireeIndex >= 0) {
+      await PartyActions.bringItemToParty(
+          soirees[selectedSoireeIndex]['name'], itemToBring, userID);
+      itemToBringController.clear();
+      // Rafraîchissez la liste des soirées après avoir ajouté l'élément.
+      await fetchSoireesFromDatabase();
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -81,26 +83,27 @@ class _ListeSoireesPageState extends State<ListeSoireesPage> {
         title: const Text('Liste des Soirées'),
       ),
       body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: soirees.length,
-              itemBuilder: (context, index) {
-                final soiree = soirees[index];
-                return ListTile(
-                  title: Text(soiree['name']),
-                  subtitle: Text(
-                          'Créateur: ${soiree['createur']},\nDate de création: ${soiree['date']},\nInscrits: ${soiree['items'].join(', ')}',
-                        ),
+        children: [ListSoirees()],
+      ),
+    );
+  }
 
-                  onTap: () {
-                    _showPartyDialog(context, soiree['name']);
-                  },
-                );
-              },
+  Widget ListSoirees() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: soirees.length,
+        itemBuilder: (context, index) {
+          final soiree = soirees[index];
+          return ListTile(
+            title: Text(soiree['name']),
+            subtitle: Text(
+              'Créateur: ${soiree['createur']},\nDate de création: ${soiree['date']},\nInscrits: ${soiree['items'].join(', ')}',
             ),
-          ),
-        ],
+            onTap: () {
+              _showPartyDialog(context, soiree['name']);
+            },
+          );
+        },
       ),
     );
   }

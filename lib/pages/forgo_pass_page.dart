@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stable/components/forgo_pass.dart';
 
 class ForgoPassPage extends StatelessWidget {
@@ -12,6 +13,9 @@ class ForgoPassPage extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.blue,
             title: const Text('Forgot Password'),
+            leading: IconButton(
+                onPressed: () => Get.back(),
+                icon: const Icon(Icons.navigate_next)),
           ),
           body: const Column(
             mainAxisAlignment: MainAxisAlignment.center,

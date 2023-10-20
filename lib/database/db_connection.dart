@@ -1,8 +1,6 @@
 import 'package:mongo_dart/mongo_dart.dart';
 import 'dart:developer' as dev; // for logging
 
-
-
 const mongoUrl = "10.0.2.2";
 const databaseName = "flutterecurie";
 
@@ -12,7 +10,8 @@ void main() async {
   db.isConnected;
   var coll = db.collection('users');
   await coll.insertOne({
-    'profile_picture': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
+    'profile_picture':
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
     'username': 'Hello',
     'email': 'john@doe.com',
     'password': 1234,
@@ -75,4 +74,3 @@ class DbConnection {
   //   }
   // }
 }
-

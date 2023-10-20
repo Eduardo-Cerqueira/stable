@@ -81,19 +81,10 @@ class HomePage extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text("Details de l'utilisateur"),
-              onTap: () {
-                // Naviguez vers la page de programmation de cours
-                Get.to(const UserDetailsPage());
-              },
-            ),
+                title: const Text("Details de l'utilisateur"),
+                onTap: () => Get.to(const UserDetailsPage())),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: c.increment,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

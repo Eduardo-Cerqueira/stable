@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:stable/pages/login_page.dart';
 import 'package:stable/persistance/repository.dart';
-import 'package:stable/pages/home_page.dart';
 import 'database.dart';
 
 void main() async {
@@ -13,8 +14,10 @@ void main() async {
     await MongoDatabase
         .listCollections(); // Ajoutez cette ligne pour lister les collections
     runApp(const GetMaterialApp(
-        debugShowCheckedModeBanner: false, home: HomePage()));
+        debugShowCheckedModeBanner: false, home: LoginPage()));
   } else {
-    print("Failed to connect to MongoDB");
+    if (kDebugMode) {
+      print("Failed to connect to MongoDB");
+    }
   }
 }

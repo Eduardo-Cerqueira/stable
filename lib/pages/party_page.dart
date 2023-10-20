@@ -4,14 +4,13 @@ import 'package:get/get.dart';
 import 'package:stable/pages/home_page.dart';
 
 class PartyPage extends StatefulWidget {
-  final String userID; 
+  final String userID;
 
-  const PartyPage({Key? key, required this.userID}) : super(key: key); 
+  const PartyPage({Key? key, required this.userID}) : super(key: key);
 
   @override
   _PartyPageState createState() => _PartyPageState();
 }
-
 
 class _PartyPageState extends State<PartyPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -22,20 +21,19 @@ class _PartyPageState extends State<PartyPage> {
   DateTime? selectedDate;
 
   Future<void> _selectDate(BuildContext context) async {
-  final DateTime picked = (await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime(2101),
-  ))!;
+    final DateTime picked = (await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    ))!;
 
-  if (picked != selectedDate) {
-    setState(() {
-      selectedDate = DateTime(picked.year, picked.month, picked.day);
-    });
+    if (picked != selectedDate) {
+      setState(() {
+        selectedDate = DateTime(picked.year, picked.month, picked.day);
+      });
+    }
   }
-}
-
 
   void _submitForm() {
     if (_formKey.currentState!.validate() && selectedDate != null) {
@@ -50,10 +48,10 @@ class _PartyPageState extends State<PartyPage> {
 
       print(typeSoiree);
       print(nomSoireeController.text);
-      print(selectedDate); 
+      print(selectedDate);
 
-      MongoDataBase.insertEvent(nomSoireeController.text, typeSoiree, selectedDate, widget.userID);
-
+      MongoDataBase.insertEvent(
+          nomSoireeController.text, typeSoiree, selectedDate, widget.userID);
     }
   }
 
@@ -63,8 +61,11 @@ class _PartyPageState extends State<PartyPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Party Page'),
-        ),
+            title: const Text('Party Page'),
+            backgroundColor: Colors.blue,
+            leading: IconButton(
+                onPressed: () => Get.to(() => const HomePage()),
+                icon: const Icon(Icons.navigate_next))),
         body: Center(
           child: Form(
             key: _formKey,
@@ -73,7 +74,8 @@ class _PartyPageState extends State<PartyPage> {
               children: [
                 TextFormField(
                   controller: nomSoireeController,
-                  decoration: const InputDecoration(labelText: 'Nom de la soirée'),
+                  decoration:
+                      const InputDecoration(labelText: 'Nom de la soirée'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Veuillez entrer un nom de soirée';
@@ -97,10 +99,12 @@ class _PartyPageState extends State<PartyPage> {
                                 });
                               },
                             ),
-                            Image.asset('assets/apero.jpeg', width: 30, height: 30), 
+                            Image.asset('assets/apero.jpeg',
+                                width: 30, height: 30),
                           ],
                         ),
-                        const Text('Apéro', style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text('Apéro',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                     const SizedBox(width: 20),
@@ -116,10 +120,12 @@ class _PartyPageState extends State<PartyPage> {
                                 });
                               },
                             ),
-                            Image.asset('assets/repas.jpeg', width: 30, height: 30), 
+                            Image.asset('assets/repas.jpeg',
+                                width: 30, height: 30),
                           ],
                         ),
-                        const Text('Repas', style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text('Repas',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ],
@@ -139,7 +145,6 @@ class _PartyPageState extends State<PartyPage> {
                   },
                   child: const Text('Créer la soirée'),
                 ),
-                
               ],
             ),
           ),
