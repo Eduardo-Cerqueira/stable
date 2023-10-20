@@ -9,8 +9,7 @@ import 'package:mongo_dart/mongo_dart.dart'
     show GridFS; // Importation de la classe Db et GridFS
 
 class MyForm extends StatefulWidget {
-  final dynamic user;
-  const MyForm({super.key, required this.user});
+  const MyForm({super.key});
 
   @override
   _MyFormState createState() => _MyFormState();
