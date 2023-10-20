@@ -22,7 +22,7 @@ connection() async {
 main() async {
   try {
     var db = await connection();
-    insertUsers(db, {"name": "keke", "age": 23});
+    insertUser(db, {"name": "keke", "age": 23});
     print("inserted");
   } catch (e) {
     print(e);
@@ -41,6 +41,16 @@ getUsers(db) async {
   return users;
 }
 
+getHorses(db) async {
+  var collection = db.collection('horses');
+
+  var horses = await collection.find().toList();
+
+  print(horses);
+
+  return horses;
+}
+
 getUsersByName(db, name) async {
   var collection = db.collection('users');
 
@@ -51,10 +61,18 @@ getUsersByName(db, name) async {
   return users;
 }
 
-Future<void> insertUsers(db, Map<String, dynamic> usersData) async {
+Future<void> insertUser(db, Map<String, dynamic> userData) async {
   final collection = db.collection('users');
 
-  await collection.insert(usersData);
+  await collection.insert(userData);
+
+  await db.close();
+}
+
+Future<void> insertHorse(db, Map<String, dynamic> horse) async {
+  final collection = db.collection('horses');
+
+  await collection.insert(horse);
 
   await db.close();
 }

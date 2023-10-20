@@ -21,11 +21,11 @@ class Collection {
     await db.open();
     print("🖴 Connected to database !");
     userCollection = db.collection("user");
-    horseCollection = db.collection("horse");
+    horseCollection = db.collection("horses");
     stableCollection = db.collection("stable");
   }
 
-  static Future<List<Map<String, dynamic>>?> getDocuments() async {
+  static getDocuments() async {
     try {
       final users = await userCollection.find().toList();
       return users;
@@ -50,21 +50,6 @@ class Collection {
     await userCollection.remove(where.id(user.id));
   }
 
-  static getHorseDocuments() async {
-    try {
-      final horsesList = await horseCollection.find().toList();
-      print(horsesList);
-      List<Horse> horses = [];
-      for (var item in horsesList) {
-        horses.add(toHorse(item));
-      }
-      return horses;
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
   static Horse toHorse(data) {
     final horse = Horse(
         id: data['_id'],
@@ -80,6 +65,17 @@ class Collection {
         halfBoarder: data['halfBoarder']);
 
     return horse;
+  }
+
+  static getHorseDocuments() async {
+    try {
+      final horses = await horseCollection.find().toList();
+      print(horses);
+      return horses;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   static getUserOwnedHorse(User user) async {

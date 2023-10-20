@@ -157,7 +157,9 @@ class UserDetailsPageState extends State<UserDetailsPage> {
                       onPressed: () => (Get.to(const UserHorses()))),
                   TextButton(
                       child: const Text("I'am a owner"),
-                      onPressed: () => Get.to(const ListHorses()))
+                      onPressed: () => Get.to(ListHorsesPage(
+                            user: user,
+                          )))
                 ]),
           ]))
         ],
@@ -182,8 +184,7 @@ class UserDetailsPageState extends State<UserDetailsPage> {
     await Collection.updateField(user, "ffeLink", ffeLinkController.text);
   }
 
-  Future<List<Horse>> listHorses() async =>
-      await Collection.getHorseDocuments();
+  listHorses() async => await Collection.getHorseDocuments();
 
   listUserHalfBoarderHorses(User user) async =>
       await Collection.getUserHalfBoarderHorse(user);

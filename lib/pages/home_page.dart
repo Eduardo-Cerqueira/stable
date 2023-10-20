@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stable/pages/add_horse.dart';
+import 'package:stable/pages/owner_choose_list_horse.dart';
 import 'package:stable/pages/profile.dart';
 import 'package:stable/pages/user_details_page.dart';
 import '../.env.dart';
@@ -90,13 +92,17 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               title: const Text('Liste des soirées'),
-              onTap: () {
-                Get.to(() => ListeSoireesPage(user: user));
-              },
+              onTap: () => Get.to(() => ListeSoireesPage(user: user)),
             ),
             ListTile(
                 title: const Text("Details de l'utilisateur"),
                 onTap: () => Get.to(const UserDetailsPage())),
+            ListTile(
+                title: const Text("Ajouter un cheval"),
+                onTap: () => Get.to(AddHorse(user: user))),
+            ListTile(
+                title: const Text("Liste des chevaux"),
+                onTap: () => Get.to(ListHorsesPage(user: user)))
           ],
         ),
       ),
