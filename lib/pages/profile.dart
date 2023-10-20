@@ -8,6 +8,8 @@ import 'package:mongo_dart/mongo_dart.dart'
     show GridFS; // Importation de la classe Db et GridFS
 
 class MyForm extends StatefulWidget {
+  const MyForm({super.key});
+
   @override
   _MyFormState createState() => _MyFormState();
 }
@@ -43,7 +45,8 @@ class _MyFormState extends State<MyForm> {
       final String name = _nameController.text;
       final String mail = _mailController.text;
       final String password = _passwordController.text;
-      insertUsers(_db, {"name": name, "mail": mail, "password": password, "image": _image});
+      insertUsers(_db,
+          {"name": name, "mail": mail, "password": password, "image": _image});
     } else {
       print("noDB");
     }
