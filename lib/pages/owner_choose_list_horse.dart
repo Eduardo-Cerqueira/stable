@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart' as m;
 import 'package:stable/models/horse.dart';
 import 'package:stable/models/user.dart';
 import 'package:stable/persistance/repository.dart';
@@ -30,7 +31,7 @@ class ListHorsesState extends State<ListHorses> {
     listUserHorses();
   }
 
-  var horses = [];
+  List<m.ObjectId> horses = [];
 
   listUserHorses() async {
     var horsesForStable;
@@ -74,6 +75,16 @@ class ListHorsesState extends State<ListHorses> {
           )
         ]),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.save), onPressed: () => {()}));
+            child: const Icon(Icons.save),
+            onPressed: () => {
+                  for (var horse in horses) {updateHorseOwner(horse)}
+                }));
+  }
+
+  updateHorseOwner(
+    m.ObjectId horseId,
+  ) async {
+    await Collection.updateFieldHorse(
+        horseId, "owner", User.fromJson(jsonDecode(userData)).id.toString());
   }
 }

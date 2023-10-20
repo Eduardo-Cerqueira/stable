@@ -142,11 +142,11 @@ class Collection {
     await horseCollection.insertAll([horse.toJson()]);
   }
 
-  static updateFieldHorse(Horse horse, String field, String value) async {
-    var horseToSave = await horseCollection.findOne({"_id": horse.id});
+  static updateFieldHorse(ObjectId horseId, String field, value) async {
+    var horseToSave = await horseCollection.findOne({"_id": horseId});
     horseToSave[field] = value;
     await horseCollection.updateOne(
-        where.eq("_id", horse.id), modify.set(field, value));
+        where.eq("_id", horseId), modify.set(field, value));
   }
 
   static deleteHorse(Horse horse) async {

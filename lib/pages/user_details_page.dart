@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stable/models/horse.dart';
-import 'package:stable/pages/list_horse.dart';
+import 'package:stable/pages/owner_choose_list_horse.dart';
 import 'package:stable/pages/user_horses_detail.dart';
 import 'package:stable/persistance/repository.dart';
 import 'package:stable/models/user.dart';
